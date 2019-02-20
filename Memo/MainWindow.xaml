@@ -29,85 +29,148 @@
         <Image Name="Image_1x1" 
                Grid.Row="1" Grid.Column="0"
                Margin="5"
-               Source="C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Star.jpg"/>
+               Source="C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Template.jpg"/>
+        <Button Name="Button_1x1"
+                Grid.Row="1" Grid.Column="0"
+                Margin="5"
+                Click="Button_1x1_Click" Opacity="0"/>
 
         <Image Name="Image_1x2" 
                Grid.Row="1" Grid.Column="1"
                Margin="5"
                Source="C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Template.jpg"/>
+        <Button Name="Button_1x2"
+                Grid.Row="1" Grid.Column="1"
+                Margin="5"
+                Click="Button_1x2_Click" Opacity="0"/>
 
         <Image Name="Image_1x3" 
                Grid.Row="1" Grid.Column="2"
                Margin="5"
                Source="C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Arrow.jpg"/>
+        <Button Name="Button_1x3"
+                Grid.Row="1" Grid.Column="2"
+                Margin="5"
+                Click="Button_1x3_Click" Opacity="0"/>
 
         <Image Name="Image_1x4" 
                Grid.Row="1" Grid.Column="3"
                Margin="5"
                Source="C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Lightning.jpg"/>
+        <Button Name="Button_1x4"
+                Grid.Row="1" Grid.Column="3"
+                Margin="5"
+                Click="Button_1x4_Click" Opacity="0"/>
 
         <!--Row 2-->
         <Image Name="Image_2x1" 
                Grid.Row="2" Grid.Column="0"
                Margin="5"
                Source="C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Hexa.jpg"/>
+        <Button Name="Button_2x1"
+                Grid.Row="2" Grid.Column="0"
+                Margin="5"
+                Click="Button_2x1_Click" Opacity="0"/>
 
         <Image Name="Image_2x2" 
                Grid.Row="2" Grid.Column="1"
                Margin="5"
                Source="C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Pentagon.jpg"/>
+        <Button Name="Button_2x2"
+                Grid.Row="2" Grid.Column="1"
+                Margin="5"
+                Click="Button_2x2_Click" Opacity="0"/>
 
         <Image Name="Image_2x3" 
                Grid.Row="2" Grid.Column="2"
                Margin="5"
                Source="C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Ball.jpg"/>
+        <Button Name="Button_2x3"
+                Grid.Row="2" Grid.Column="2"
+                Margin="5"
+                Click="Button_2x3_Click" Opacity="0"/>
 
         <Image Name="Image_2x4" 
                Grid.Row="2" Grid.Column="3"
                Margin="5"
                Source="C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Arrow.jpg"/>
+        <Button Name="Button_2x4"
+                Grid.Row="2" Grid.Column="3"
+                Margin="5"
+                Click="Button_2x4_Click" Opacity="0"/>
 
         <!--Row 3-->
         <Image Name="Image_3x1" 
                Grid.Row="3" Grid.Column="0"
                Margin="5"
                Source="C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Four-Star.jpg"/>
+        <Button Name="Button_3x1"
+                Grid.Row="3" Grid.Column="0"
+                Margin="5"
+                Click="Button_3x1_Click" Opacity="0"/>
 
         <Image Name="Image_3x2" 
                Grid.Row="3" Grid.Column="1"
                Margin="5"
                Source="C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Triangle.jpg"/>
+        <Button Name="Button_3x2"
+                Grid.Row="3" Grid.Column="1"
+                Margin="5"
+                Click="Button_3x2_Click" Opacity="0"/>
 
         <Image Name="Image_3x3" 
                Grid.Row="3" Grid.Column="2"
                Margin="5"
                Source="C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Star.jpg"/>
+        <Button Name="Button_3x3"
+                Grid.Row="3" Grid.Column="2"
+                Margin="5"
+                Click="Button_3x3_Click" Opacity="0"/>
 
         <Image Name="Image_3x4" 
                Grid.Row="3" Grid.Column="3"
                Margin="5"
                Source="C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Star.jpg"/>
+        <Button Name="Button_3x4"
+                Grid.Row="3" Grid.Column="3"
+                Margin="5"
+                Click="Button_3x4_Click" Opacity="0"/>
 
         <!--Row 4-->
         <Image Name="Image_4x1" 
                Grid.Row="4" Grid.Column="0"
                Margin="5"
                Source="C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Star.jpg"/>
+        <Button Name="Button_4x1"
+                Grid.Row="4" Grid.Column="0"
+                Margin="5"
+                Click="Button_4x1_Click" Opacity="0"/>
 
         <Image Name="Image_4x2" 
                Grid.Row="4" Grid.Column="1"
                Margin="5"
                Source="C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Star.jpg"/>
+        <Button Name="Button_4x2"
+                Grid.Row="4" Grid.Column="1"
+                Margin="5"
+                Click="Button_4x2_Click" Opacity="0"/>
 
         <Image Name="Image_4x3" 
                Grid.Row="4" Grid.Column="2"
                Margin="5"
                Source="C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Star.jpg"/>
+        <Button Name="Button_4x3"
+                Grid.Row="4" Grid.Column="2"
+                Margin="5"
+                Click="Button_4x3_Click" Opacity="0"/>
 
         <Image Name="Image_4x4" 
                Grid.Row="4" Grid.Column="3"
                Margin="5"
                Source="C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Star.jpg"/>
-
+        <Button Name="Button_4x4"
+                Grid.Row="4" Grid.Column="3"
+                Margin="5"
+                Click="Button_4x4_Click" Opacity="0"/>
     </Grid>
 </Window>
