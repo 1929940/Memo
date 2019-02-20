@@ -5,8 +5,109 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Memo"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" Height="450" Width="350">
+    <Grid Margin="5,0,5,5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Label Content="Memo" FontFamily="Calibri" FontSize="30" HorizontalContentAlignment="Center"
+               Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4"/>
+
         
+        <!--Row 1-->
+        <Image Name="Image_1x1" 
+               Grid.Row="1" Grid.Column="0"
+               Margin="5"
+               Source="C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Star.jpg"/>
+
+        <Image Name="Image_1x2" 
+               Grid.Row="1" Grid.Column="1"
+               Margin="5"
+               Source="C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Template.jpg"/>
+
+        <Image Name="Image_1x3" 
+               Grid.Row="1" Grid.Column="2"
+               Margin="5"
+               Source="C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Arrow.jpg"/>
+
+        <Image Name="Image_1x4" 
+               Grid.Row="1" Grid.Column="3"
+               Margin="5"
+               Source="C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Lightning.jpg"/>
+
+        <!--Row 2-->
+        <Image Name="Image_2x1" 
+               Grid.Row="2" Grid.Column="0"
+               Margin="5"
+               Source="C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Hexa.jpg"/>
+
+        <Image Name="Image_2x2" 
+               Grid.Row="2" Grid.Column="1"
+               Margin="5"
+               Source="C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Pentagon.jpg"/>
+
+        <Image Name="Image_2x3" 
+               Grid.Row="2" Grid.Column="2"
+               Margin="5"
+               Source="C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Ball.jpg"/>
+
+        <Image Name="Image_2x4" 
+               Grid.Row="2" Grid.Column="3"
+               Margin="5"
+               Source="C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Arrow.jpg"/>
+
+        <!--Row 3-->
+        <Image Name="Image_3x1" 
+               Grid.Row="3" Grid.Column="0"
+               Margin="5"
+               Source="C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Four-Star.jpg"/>
+
+        <Image Name="Image_3x2" 
+               Grid.Row="3" Grid.Column="1"
+               Margin="5"
+               Source="C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Triangle.jpg"/>
+
+        <Image Name="Image_3x3" 
+               Grid.Row="3" Grid.Column="2"
+               Margin="5"
+               Source="C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Star.jpg"/>
+
+        <Image Name="Image_3x4" 
+               Grid.Row="3" Grid.Column="3"
+               Margin="5"
+               Source="C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Star.jpg"/>
+
+        <!--Row 4-->
+        <Image Name="Image_4x1" 
+               Grid.Row="4" Grid.Column="0"
+               Margin="5"
+               Source="C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Star.jpg"/>
+
+        <Image Name="Image_4x2" 
+               Grid.Row="4" Grid.Column="1"
+               Margin="5"
+               Source="C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Star.jpg"/>
+
+        <Image Name="Image_4x3" 
+               Grid.Row="4" Grid.Column="2"
+               Margin="5"
+               Source="C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Star.jpg"/>
+
+        <Image Name="Image_4x4" 
+               Grid.Row="4" Grid.Column="3"
+               Margin="5"
+               Source="C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Star.jpg"/>
+
     </Grid>
 </Window>
