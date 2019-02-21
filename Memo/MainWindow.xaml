@@ -5,7 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Memo"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="350" Background="Aqua">
+        Title="MainWindow" Height="450" Width="350">
+    <Window.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="DarkSlateGray" Offset="0.0" />
+            <GradientStop Color="LightBlue" Offset="0.25" />
+            <GradientStop Color="DarkGray" Offset="0.75" />
+            <GradientStop Color="DarkSlateGray" Offset="1.0" />
+        </LinearGradientBrush>
+    </Window.Background>
     <Grid Margin="5,0,5,5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
