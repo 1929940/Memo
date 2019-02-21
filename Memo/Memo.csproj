@@ -96,5 +96,26 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Arrow.jpg" />
+    <Resource Include="Images\Arrow_highlight.jpg" />
+    <Resource Include="Images\Ball.jpg" />
+    <Resource Include="Images\Ball_highlight.jpg" />
+    <Resource Include="Images\Four-Star.jpg" />
+    <Resource Include="Images\Four-Star_highlight.jpg" />
+    <Resource Include="Images\Hearth.jpg" />
+    <Resource Include="Images\Hearth_highlight.jpg" />
+    <Resource Include="Images\Hexa.jpg" />
+    <Resource Include="Images\Hexa_highlight.jpg" />
+    <Resource Include="Images\Lightning.jpg" />
+    <Resource Include="Images\Lightning_highlight.jpg" />
+    <Resource Include="Images\Pentagon.jpg" />
+    <Resource Include="Images\Pentagon_highlight.jpg" />
+    <Resource Include="Images\Star.jpg" />
+    <Resource Include="Images\Star_highlight.jpg" />
+    <Resource Include="Images\Template.jpg" />
+    <Resource Include="Images\Triangle.jpg" />
+    <Resource Include="Images\Triangle_highlight.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

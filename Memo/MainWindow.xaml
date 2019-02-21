@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Memo"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="350">
+        Title="MainWindow" Height="450" Width="350" Background="Aqua">
     <Grid Margin="5,0,5,5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>

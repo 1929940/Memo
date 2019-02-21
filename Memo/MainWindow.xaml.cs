@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace Memo
 {
@@ -24,24 +25,24 @@ namespace Memo
         List<Image> Images;
         List<Card> Cards = new List<Card>
         {
-            new Card("Arrow",@"C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Arrow.jpg" ),
-            new Card("Arrow",@"C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Arrow.jpg" ),
-            new Card("Ball",@"C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Ball.jpg"),
-            new Card("Ball",@"C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Ball.jpg"),
-            new Card("Four-Star",@"C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Four-Star.jpg"),
-            new Card("Four-Star",@"C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Four-Star.jpg"),
-            new Card("Hexa",@"C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Hexa.jpg"),
-            new Card("Hexa",@"C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Hexa.jpg"),
-            new Card("Lightning",@"C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Lightning.jpg"),
-            new Card("Lightning",@"C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Lightning.jpg"),
-            new Card("Pentagon",@"C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Pentagon.jpg"),
-            new Card("Pentagon",@"C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Pentagon.jpg"),
-            new Card("Star",@"C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Star.jpg"),
-            new Card("Star",@"C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Star.jpg"),
-            new Card("Triangle",@"C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Triangle.jpg"),
-            new Card("Triangle",@"C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Triangle.jpg"),
+            new Card("Arrow",       @"pack://application:,,,/Images/Arrow.jpg" ),
+            new Card("Arrow",       @"pack://application:,,,/Images/Arrow.jpg" ),
+            new Card("Ball",        @"pack://application:,,,/Images/Ball.jpg"),
+            new Card("Ball",        @"pack://application:,,,/Images/Ball.jpg"),
+            new Card("Four-Star",   @"pack://application:,,,/Images/Four-Star.jpg"),
+            new Card("Four-Star",   @"pack://application:,,,/Images/Four-Star.jpg"),
+            new Card("Hexa",        @"pack://application:,,,/Images/Hexa.jpg"),
+            new Card("Hexa",        @"pack://application:,,,/Images/Hexa.jpg"),
+            new Card("Lightning",   @"pack://application:,,,/Images/Lightning.jpg"),
+            new Card("Lightning",   @"pack://application:,,,/Images/Lightning.jpg"),
+            new Card("Pentagon",    @"pack://application:,,,/Images/Pentagon.jpg"),
+            new Card("Pentagon",    @"pack://application:,,,/Images/Pentagon.jpg"),
+            new Card("Star",        @"pack://application:,,,/Images/Star.jpg"),
+            new Card("Star",        @"pack://application:,,,/Images/Star.jpg"),
+            new Card("Triangle",    @"pack://application:,,,/Images/Triangle.jpg"),
+            new Card("Triangle",    @"pack://application:,,,/Images/Triangle.jpg"),
         };
-        BitmapImage tmp = new BitmapImage(new Uri(@"C:\Users\Użytkownik\source\repos\Memo\Memo\Resources\Icons\Template.jpg"));
+        BitmapImage tmp = new BitmapImage(new Uri(@"pack://application:,,,/Images/Template.jpg"));
         int counter = 0;
         string cur = String.Empty;
         string prev = String.Empty;
@@ -59,6 +60,8 @@ namespace Memo
             };
             Cards.Shuffle<Card>();
             Reset();
+            string path = Directory.GetCurrentDirectory();
+            Debug.WriteLine(path);
         }
 
         void Reset()
