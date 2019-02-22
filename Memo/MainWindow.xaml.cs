@@ -44,9 +44,14 @@ namespace Memo
         };
         BitmapImage tmp = new BitmapImage(new Uri(@"pack://application:,,,/Images/Template.jpg"));
         int moveCounter = 0;
+        int playerOneScore = 0;
+        int playerTwoScore = 0;
         int counter = 0;
         string cur = String.Empty;
         string prev = String.Empty;
+        enum GameModeSettings { SP, MP, AI };
+        GameModeSettings GameMode = GameModeSettings.MP;   // Add GUI for Mode Selection
+        int player = 1;
 
 
         public MainWindow()
@@ -62,7 +67,22 @@ namespace Memo
             Cards.Shuffle<Card>();
             Reset();
             string path = Directory.GetCurrentDirectory();
-            movesCounterlbl.Content = moveCounter;
+            if (GameMode == GameModeSettings.SP)
+            {
+                right_one_lbl.Content = "Moves: ";
+                right_two_lbl.Content = moveCounter;
+            }
+            else
+            {
+                left_one_lbl.Content = "Now Playing:";
+                left_two_lbl.Content = player;
+
+                mid_one_lbl.Content = "P1 Score: ";
+                mid_two_lbl.Content = playerOneScore;
+
+                right_one_lbl.Content = "P2 Score: ";
+                right_two_lbl.Content = playerTwoScore;
+            }
         }
 
         void Reset()
@@ -73,6 +93,14 @@ namespace Memo
                 {
                     Images[i].Source = Cards[i].img;
                 }
+                else if (Cards[i].discovered_p1)
+                {
+                    Images[i].Source = Cards[i].img_p1;
+                }
+                else if (Cards[i].discovered_p2)
+                {
+                    Images[i].Source = Cards[i].img_p2;
+                }
                 else
                 {
                     Images[i].Source = tmp;
@@ -82,14 +110,30 @@ namespace Memo
         void Victory()
         {
             int victoryCounter = 0;
+            int scoreP1 = 0;
+            int scoreP2 = 0;
             foreach (var item in Cards)
             {
                 if (item.discovered)
+                {
                     victoryCounter++;
+                }
+                else if (item.discovered_p1)
+                {
+                    victoryCounter++;
+                    scoreP1++;
+                }
+                else if (item.discovered_p2)
+                {
+                    victoryCounter++;
+                    scoreP2++;
+                }
             }
-            if (victoryCounter == 16)
+            if (victoryCounter == 16) //
             {
-                MessageBox.Show("Contrangts, you have won");
+                if (scoreP1 > scoreP2) MessageBox.Show("Congrats player one, you have WON");
+                else if (scoreP2 > scoreP1) MessageBox.Show("Congrats player one, you have LOST");
+                else MessageBox.Show("Contrangts, you have won");
                 ResetGame();
             }
 
@@ -105,6 +149,12 @@ namespace Memo
             Reset();
         }
         void PressButton(int i)
+        {
+            if (GameMode == GameModeSettings.SP) SPButton(i);
+            else if (GameMode == GameModeSettings.MP) MPButton(i);
+            else if (GameMode == GameModeSettings.AI) AIButton(i);
+        }
+        void SPButton(int i)
         {
             counter++;
             if (counter == 3)
@@ -125,13 +175,59 @@ namespace Memo
                     }
                 }
                 moveCounter++;
-                movesCounterlbl.Content = moveCounter;
+                right_two_lbl.Content = moveCounter;
             }
             prev = cur;
             Victory();
         }
+        void MPButton(int i)
+        {
+            counter++;
+            if (counter == 3)
+            {
+                counter = 1;
+                Reset();
+            }
+            Images[i].Source = Cards[i].img_highlight;
+            cur = Cards[i].name;
+            if (counter == 2)
+            {
+                if (cur == prev)
+                {
+                    foreach (var item in Cards)
+                    {
+                        if (cur == item.name)
+                        {
+                            if (player == 1) // if player == 0 consider this SP?
+                            {
+                                item.discovered_p1 = true;
+                                playerOneScore++;
+                                mid_two_lbl.Content = playerOneScore;
+                                Reset();
+                            }
+                            else if (player == 2)
+                            {
+                                item.discovered_p2 = true;
+                                playerTwoScore++;
+                                right_two_lbl.Content = playerTwoScore;
+                                Reset();
+                            }
+                        }
+                    }
+                }
+                player = (player == 1) ? 2 : 1;
+                left_two_lbl.Content = player;
+            }
+            prev = cur;
+            Victory();
+        }
+        void AIButton(int i)
+        {
+
+        }
 
 
+        #region Buttons
         private void Button_1x1_Click(object sender, RoutedEventArgs e)
         {
             PressButton(0);
@@ -211,5 +307,6 @@ namespace Memo
         {
             PressButton(15);
         }
+        #endregion
     }
 }

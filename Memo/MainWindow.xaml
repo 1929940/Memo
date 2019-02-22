@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Memo"
         mc:Ignorable="d"
-        Title="MainWindow" Height="480" Width="350">
+        Title="MainWindow" Height="550" Width="430">
     <Window.Background>
         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
             <GradientStop Color="LightSkyBlue" Offset="0.0" />
@@ -185,10 +185,25 @@
         
         <!-- Row 5-->
         <StackPanel Margin="0,0,5,0"
+                    Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top"
+                    Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2">
+            <Label Name="left_one_lbl"/>
+            <Label Name="left_two_lbl"/>
+        </StackPanel>
+
+        <StackPanel Margin="0,0,5,0"
+                    Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top"
+                    Grid.Row="5" Grid.Column="2">
+            <Label Name="mid_one_lbl"/>
+            <Label Name="mid_two_lbl"/>
+        </StackPanel>
+
+
+        <StackPanel Margin="0,0,5,0"
                     Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top"
                     Grid.Row="5" Grid.Column="3">
-            <Label Content="Moves: "/>
-            <Label Content="0" Name="movesCounterlbl"/>
+            <Label Name="right_one_lbl"/>
+            <Label Name="right_two_lbl"/>
         </StackPanel>
         
 
