@@ -31,8 +31,8 @@ namespace Memo
             new Card("Ball",        @"pack://application:,,,/Images/Ball.jpg"),
             new Card("Four-Star",   @"pack://application:,,,/Images/Four-Star.jpg"),
             new Card("Four-Star",   @"pack://application:,,,/Images/Four-Star.jpg"),
-            new Card("Hexa",        @"pack://application:,,,/Images/Hexa.jpg"),
-            new Card("Hexa",        @"pack://application:,,,/Images/Hexa.jpg"),
+            new Card("Hearth",      @"pack://application:,,,/Images/Hearth.jpg"),
+            new Card("Hearth",      @"pack://application:,,,/Images/Hearth.jpg"),
             new Card("Lightning",   @"pack://application:,,,/Images/Lightning.jpg"),
             new Card("Lightning",   @"pack://application:,,,/Images/Lightning.jpg"),
             new Card("Pentagon",    @"pack://application:,,,/Images/Pentagon.jpg"),
@@ -43,6 +43,7 @@ namespace Memo
             new Card("Triangle",    @"pack://application:,,,/Images/Triangle.jpg"),
         };
         BitmapImage tmp = new BitmapImage(new Uri(@"pack://application:,,,/Images/Template.jpg"));
+        int moveCounter = 0;
         int counter = 0;
         string cur = String.Empty;
         string prev = String.Empty;
@@ -61,7 +62,7 @@ namespace Memo
             Cards.Shuffle<Card>();
             Reset();
             string path = Directory.GetCurrentDirectory();
-            Debug.WriteLine(path);
+            movesCounterlbl.Content = moveCounter;
         }
 
         void Reset()
@@ -99,6 +100,7 @@ namespace Memo
             {
                 item.discovered = false;
             }
+            moveCounter = 0;
             Cards.Shuffle<Card>();
             Reset();
         }
@@ -110,7 +112,7 @@ namespace Memo
                 counter = 1;
                 Reset();
             }
-            Images[i].Source = Cards[i].img;
+            Images[i].Source = Cards[i].img_highlight;
             cur = Cards[i].name;
             if (counter == 2)
             {
@@ -122,6 +124,8 @@ namespace Memo
                             item.discovered = true;
                     }
                 }
+                moveCounter++;
+                movesCounterlbl.Content = moveCounter;
             }
             prev = cur;
             Victory();

@@ -22,5 +22,12 @@ namespace Memo
                 list[n] = value;
             }
         }
+        public static string ExtendPath(this string arg, string arg2)
+        {
+            string path = arg.Substring(0, arg.IndexOf("."));
+            string extension = arg.Substring(arg.IndexOf("."));
+
+            return path + arg2 + extension;
+        }
     }
 }

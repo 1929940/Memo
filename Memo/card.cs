@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,12 +12,15 @@ namespace Memo
     {
         public string name;
         public BitmapImage img;
+        public BitmapImage img_highlight;
+
         public bool discovered = false;
 
         public Card(string name, string path)
         {
             this.name = name;
-            this.img = new BitmapImage(new Uri(path));
+            img = new BitmapImage(new Uri(path));
+            img_highlight = new BitmapImage(new Uri(path.ExtendPath("_highlight")));
         }
     }
 }
