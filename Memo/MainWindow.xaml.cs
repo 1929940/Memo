@@ -50,7 +50,7 @@ namespace Memo
         string cur = String.Empty;
         string prev = String.Empty;
         enum GameModeSettings { SP, MP, AI };
-        GameModeSettings GameMode = GameModeSettings.MP;   // Add GUI for Mode Selection
+        GameModeSettings GameMode = GameModeSettings.AI;   // Add GUI for Mode Selection
         int player = 1;
 
 
@@ -107,7 +107,7 @@ namespace Memo
                 }
             }
         }
-        void Victory()
+        bool Victory()
         {
             int victoryCounter = 0;
             int scoreP1 = 0;
@@ -129,20 +129,39 @@ namespace Memo
                     scoreP2++;
                 }
             }
-            if (victoryCounter == 16) //
+            if (victoryCounter == 16)
             {
                 if (scoreP1 > scoreP2) MessageBox.Show("Congrats player one, you have WON");
-                else if (scoreP2 > scoreP1) MessageBox.Show("Congrats player one, you have LOST");
-                else MessageBox.Show("Contrangts, you have won");
+                else if (scoreP2 > scoreP1) MessageBox.Show("Congrats player two, you have WON");
+                else
+                {
+                    if (GameMode == GameModeSettings.SP) MessageBox.Show("Congratz, you have won");
+                    else MessageBox.Show("Contrangts, a draw");
+                }
                 ResetGame();
+                if (GameMode == GameModeSettings.SP)
+                {
+                    moveCounter = 0;
+                    right_two_lbl.Content = moveCounter;
+                }
+                else
+                {
+                    playerOneScore = 0;
+                    playerTwoScore = 0;
+                    mid_two_lbl.Content = playerOneScore;
+                    right_two_lbl.Content = playerTwoScore;
+                }
+                return true;
             }
-
+            return false;
         }
         void ResetGame()
         {
             foreach (var item in Cards) 
             {
                 item.discovered = false;
+                item.discovered_p1 = false;
+                item.discovered_p2 = false;
             }
             moveCounter = 0;
             Cards.Shuffle<Card>();
@@ -171,7 +190,10 @@ namespace Memo
                     foreach (var item in Cards)
                     {
                         if (cur == item.name)
+                        {
                             item.discovered = true;
+                            Debug.WriteLine("Discovered a pair");
+                        }
                     }
                 }
                 moveCounter++;
@@ -223,9 +245,102 @@ namespace Memo
         }
         void AIButton(int i)
         {
+            counter++;
+            Images[i].Source = Cards[i].img_highlight; 
+            cur = Cards[i].name;
+            if (counter == 2)
+            {
+                if (cur == prev)
+                {
+                    foreach (var item in Cards)
+                    {
+                        if (cur == item.name)
+                        {
+                         item.discovered_p1 = true;
+                         playerOneScore++;
+                         mid_two_lbl.Content = playerOneScore;
+                         Reset();
+                        }
+                    }
+                }
+                counter = 0;
+                if (Victory()) return; 
+                player = 2;
+                left_two_lbl.Content = player;
+                MessageBox.Show("Press OK to begin AI turn", "Need a more elegant solution");
+                Reset();
+                AIPressButton(AIPlaysRandom());
+                AIPressButton(AIPlaysRandom());
+                counter = 0;
+                player = 1;
+                left_two_lbl.Content = player;
+                if (Victory()) return;
+                MessageBox.Show("Press OK to end AI turn", "Need a more elegant solution");
+                Reset();
 
+
+            }
+            prev = cur;
         }
+        void AIPressButton(int i)
+        {
+            counter++;
+            if (counter == 3)
+            {
+                counter = 1;
+                Reset();
+            }
+            Images[i].Source = Cards[i].img_highlight;
+            cur = Cards[i].name;
+            if (counter == 2)
+            {
+                if (cur == prev)
+                {
+                    foreach (var item in Cards)
+                    {
+                        if (cur == item.name)
+                        {
+                         item.discovered_p2 = true;
+                         playerTwoScore++;
+                         right_two_lbl.Content = playerTwoScore;
+                         Reset();
+                        }
+                    }
+                }
+            }
+            prev = cur;
+            Victory();
+        }
+        int AIPlaysRandom() //can generate the same number
+        {
+            List<int> tmpList = new List<int>();
 
+            for (int i = 0; i < 16; i++)
+            {
+                if (!(Cards[i].discovered || Cards[i].discovered_p1 || Cards[i].discovered_p2))
+                {
+                    tmpList.Add(i);
+                }
+            }
+            Random random = new Random();
+            System.Threading.Thread.Sleep(100);
+            int returnVal = tmpList[random.Next(tmpList.Count)];
+            Debug.WriteLine("Generated Number: {0}", returnVal);
+            return returnVal;
+        }
+        void TestRandom()
+        {
+            for (int i = 0; i < 10; i++) // od 0 do 9 Carty sa odkryte, ich nie powinno losowac
+            {
+                Cards[i].discovered = true;
+            }
+            Debug.WriteLine("Generating Using method");
+            for (int i = 0; i < 100; i++)
+            {
+                System.Threading.Thread.Sleep(100); // prevents from generating the same number over and over again
+                Debug.WriteLine(i + ":                            " + AIPlaysRandom());
+            }
+        }
 
         #region Buttons
         private void Button_1x1_Click(object sender, RoutedEventArgs e)
