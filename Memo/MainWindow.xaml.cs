@@ -47,6 +47,7 @@ namespace Memo
         int playerOneScore = 0;
         int playerTwoScore = 0;
         int counter = 0;
+        int generatorTMP = 16;
         string cur = String.Empty;
         string prev = String.Empty;
         enum GameModeSettings { SP, MP, AI };
@@ -243,7 +244,7 @@ namespace Memo
             prev = cur;
             Victory();
         }
-        void AIButton(int i)
+        void AIButton(int i) 
         {
             counter++;
             Images[i].Source = Cards[i].img_highlight; 
@@ -267,7 +268,7 @@ namespace Memo
                 if (Victory()) return; 
                 player = 2;
                 left_two_lbl.Content = player;
-                MessageBox.Show("Press OK to begin AI turn", "Need a more elegant solution");
+                MessageBox.Show("Press OK to ::begin:: AI turn", "Need a more elegant solution");
                 Reset();
                 AIPressButton(AIPlaysRandom());
                 AIPressButton(AIPlaysRandom());
@@ -275,7 +276,7 @@ namespace Memo
                 player = 1;
                 left_two_lbl.Content = player;
                 if (Victory()) return;
-                MessageBox.Show("Press OK to end AI turn", "Need a more elegant solution");
+                MessageBox.Show("Press OK to ::end:: AI turn", "Need a more elegant solution");
                 Reset();
 
 
@@ -311,7 +312,7 @@ namespace Memo
             prev = cur;
             Victory();
         }
-        int AIPlaysRandom() //can generate the same number
+        int AIPlaysRandom()
         {
             List<int> tmpList = new List<int>();
 
@@ -321,11 +322,12 @@ namespace Memo
                 {
                     tmpList.Add(i);
                 }
-            }
+            }           
+            if(generatorTMP < 16) tmpList.Remove(generatorTMP);
             Random random = new Random();
             System.Threading.Thread.Sleep(100);
             int returnVal = tmpList[random.Next(tmpList.Count)];
-            Debug.WriteLine("Generated Number: {0}", returnVal);
+            generatorTMP = returnVal;
             return returnVal;
         }
         void TestRandom()
@@ -337,8 +339,8 @@ namespace Memo
             Debug.WriteLine("Generating Using method");
             for (int i = 0; i < 100; i++)
             {
-                System.Threading.Thread.Sleep(100); // prevents from generating the same number over and over again
-                Debug.WriteLine(i + ":                            " + AIPlaysRandom());
+                System.Threading.Thread.Sleep(10); // prevents from generating the same number
+                Debug.WriteLine(i + ":                            " + AIPlaysRandom() + Environment.NewLine);
             }
         }
 
