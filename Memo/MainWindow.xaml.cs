@@ -51,7 +51,7 @@ namespace Memo
         string cur = String.Empty;
         string prev = String.Empty;
         enum GameModeSettings { SP, MP, AI };
-        GameModeSettings GameMode = GameModeSettings.AI;   // Add GUI for Mode Selection
+        GameModeSettings GameMode = GameModeSettings.SP;  
         int player = 1;
 
 
@@ -66,10 +66,21 @@ namespace Memo
                 Image_4x1,Image_4x2,Image_4x3,Image_4x4,
             };
             Cards.Shuffle<Card>();
+            SetMode(GameMode);
             Reset();
-            string path = Directory.GetCurrentDirectory();
-            if (GameMode == GameModeSettings.SP)
+
+        }
+
+        void SetMode(GameModeSettings Mode)
+        {
+            if (Mode == GameModeSettings.SP)
             {
+                left_one_lbl.Content = String.Empty;
+                left_two_lbl.Content = String.Empty;
+
+                mid_one_lbl.Content = String.Empty;
+                mid_two_lbl.Content = String.Empty;
+
                 right_one_lbl.Content = "Moves: ";
                 right_two_lbl.Content = moveCounter;
             }
@@ -85,7 +96,6 @@ namespace Memo
                 right_two_lbl.Content = playerTwoScore;
             }
         }
-
         void Reset()
         {
             for (int i = 0; i < Images.Count; i++)
@@ -164,7 +174,20 @@ namespace Memo
                 item.discovered_p1 = false;
                 item.discovered_p2 = false;
             }
+            // Thoughtless added these:
+
             moveCounter = 0;
+            playerOneScore = 0;
+            playerTwoScore = 0;
+            counter = 0;
+            generatorTMP = 16;
+            cur = String.Empty;
+            prev = String.Empty;
+            player = 1;
+
+            // End
+
+
             Cards.Shuffle<Card>();
             Reset();
         }
@@ -423,6 +446,54 @@ namespace Memo
         private void Button_4x4_Click(object sender, RoutedEventArgs e)
         {
             PressButton(15);
+        }
+        #endregion
+
+        #region MenuEvents
+        private void MenuNewGame_Click(object sender, RoutedEventArgs e)
+        {
+            ResetGame();
+        }
+
+        private void MenuQuitGame_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void VsNone_Click(object sender, RoutedEventArgs e)
+        {
+            GameMode = GameModeSettings.SP;
+            SetMode(GameMode);
+            ResetGame();
+        }
+
+        private void VsAnother_Click(object sender, RoutedEventArgs e)
+        {
+            GameMode = GameModeSettings.MP;
+            SetMode(GameMode);
+            ResetGame();
+        }
+
+        private void VsAI_Click(object sender, RoutedEventArgs e)
+        {
+            GameMode = GameModeSettings.AI;
+            SetMode(GameMode);
+            ResetGame();
+        }
+
+        private void AIEasy_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AIMedium_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AIHard_Click(object sender, RoutedEventArgs e)
+        {
+
         }
         #endregion
     }
