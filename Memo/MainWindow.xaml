@@ -34,6 +34,8 @@
 
         <!-- Row 0-->
         
+
+
         <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Margin="-5,0,-5,-5">
             <MenuItem Header="Game">
                 <MenuItem Header="New Game" Name="MenuNewGame" Click="MenuNewGame_Click"/>

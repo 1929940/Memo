@@ -100,11 +100,7 @@ namespace Memo
         {
             for (int i = 0; i < Images.Count; i++)
             {
-                if (Cards[i].discovered)
-                {
-                    Images[i].Source = Cards[i].img;
-                }
-                else if (Cards[i].discovered_p1)
+                if (Cards[i].discovered_p1)
                 {
                     Images[i].Source = Cards[i].img_p1;
                 }
@@ -125,11 +121,7 @@ namespace Memo
             int scoreP2 = 0;
             foreach (var item in Cards)
             {
-                if (item.discovered)
-                {
-                    victoryCounter++;
-                }
-                else if (item.discovered_p1)
+                if (item.discovered_p1)
                 {
                     victoryCounter++;
                     scoreP1++;
@@ -170,12 +162,9 @@ namespace Memo
         {
             foreach (var item in Cards) 
             {
-                item.discovered = false;
                 item.discovered_p1 = false;
                 item.discovered_p2 = false;
             }
-            // Thoughtless added these:
-
             moveCounter = 0;
             playerOneScore = 0;
             playerTwoScore = 0;
@@ -184,9 +173,6 @@ namespace Memo
             cur = String.Empty;
             prev = String.Empty;
             player = 1;
-
-            // End
-
 
             Cards.Shuffle<Card>();
             Reset();
@@ -215,8 +201,8 @@ namespace Memo
                     {
                         if (cur == item.name)
                         {
-                            item.discovered = true;
-                            Debug.WriteLine("Discovered a pair");
+                            item.discovered_p1 = true;
+                            Reset();
                         }
                     }
                 }
@@ -244,7 +230,7 @@ namespace Memo
                     {
                         if (cur == item.name)
                         {
-                            if (player == 1) // if player == 0 consider this SP?
+                            if (player == 1)
                             {
                                 item.discovered_p1 = true;
                                 playerOneScore++;
@@ -288,7 +274,8 @@ namespace Memo
                     }
                 }
                 counter = 0;
-                if (Victory()) return; 
+                bool tmpVictory = Victory();
+                if (tmpVictory) return; 
                 player = 2;
                 left_two_lbl.Content = player;
                 MessageBox.Show("Press OK to ::begin:: AI turn", "Need a more elegant solution");
@@ -298,7 +285,7 @@ namespace Memo
                 counter = 0;
                 player = 1;
                 left_two_lbl.Content = player;
-                if (Victory()) return;
+                if (tmpVictory == false) 
                 MessageBox.Show("Press OK to ::end:: AI turn", "Need a more elegant solution");
                 Reset();
 
@@ -333,7 +320,7 @@ namespace Memo
                 }
             }
             prev = cur;
-            Victory();
+            Victory(); // If AI has the last move, we get the messagebox
         }
         int AIPlaysRandom()
         {
@@ -341,14 +328,14 @@ namespace Memo
 
             for (int i = 0; i < 16; i++)
             {
-                if (!(Cards[i].discovered || Cards[i].discovered_p1 || Cards[i].discovered_p2))
+                if (!(Cards[i].discovered_p1 || Cards[i].discovered_p2))
                 {
                     tmpList.Add(i);
                 }
             }           
-            if(generatorTMP < 16) tmpList.Remove(generatorTMP);
+            if(generatorTMP < 16) tmpList.Remove(generatorTMP); // comment this to make AI master guesser
             Random random = new Random();
-            System.Threading.Thread.Sleep(100);
+            System.Threading.Thread.Sleep(100); // comment this to make AI master guesser
             int returnVal = tmpList[random.Next(tmpList.Count)];
             generatorTMP = returnVal;
             return returnVal;
@@ -357,7 +344,7 @@ namespace Memo
         {
             for (int i = 0; i < 10; i++) // od 0 do 9 Carty sa odkryte, ich nie powinno losowac
             {
-                Cards[i].discovered = true;
+                Cards[i].discovered_p1 = true;
             }
             Debug.WriteLine("Generating Using method");
             for (int i = 0; i < 100; i++)
