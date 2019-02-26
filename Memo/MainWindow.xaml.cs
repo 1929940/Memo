@@ -23,7 +23,7 @@ namespace Memo
     public partial class MainWindow : Window
     {
         List<int> ArticialMemoryList = new List<int>(5);
-        int limit = 1; // set to change
+        int limit = 3;
         List<Image> Images;
         List<Card> Cards = new List<Card>
         {
@@ -70,34 +70,6 @@ namespace Memo
             Cards.Shuffle<Card>();
             SetMode(GameMode);
             Reset();
-
-            #region TestAML
-            //test Add/Remove AML
-            //AddAml(1, limit);
-            //AddAml(2, limit);
-            //AddAml(3, limit);
-            //AddAml(4, limit);
-            //AddAml(5, limit);
-            //AddAml(6, limit);
-            //AddAml(7, limit);
-            //AddAml(8, limit);
-            //Debug.WriteLine("AML: Add");
-            //foreach (var item in ArticialMemoryList)
-            //{
-            //    Debug.WriteLine(item);
-            //}
-            //Cards[1].discovered_p1 = true;
-            //Cards[2].discovered_p1 = true;
-            //Cards[3].discovered_p1 = true;
-            //Cards[4].discovered_p1 = true;
-            //RemoveAml();
-            //Debug.WriteLine("AML: Remove");
-            //foreach (var item in ArticialMemoryList)
-            //{
-            //    Debug.WriteLine(item);
-            //}
-            ////Works
-            #endregion
         }
         void SetMode(GameModeSettings Mode)
         {
@@ -203,6 +175,7 @@ namespace Memo
             player = 1;
 
             Cards.Shuffle<Card>();
+            ArticialMemoryList.Clear();
             Reset();
         }
         void PressButton(int i)
@@ -283,7 +256,7 @@ namespace Memo
         }
         void AIButton(int i) 
         {
-            AddAml(i, limit);
+            AddAml(i);
             counter++;
             Images[i].Source = Cards[i].img_highlight; 
             cur = Cards[i].name;
@@ -312,17 +285,24 @@ namespace Memo
                 Reset();
                 Debug.WriteLine("");
                 DisplayerAML();
-                if (!AICheckAMLforPair())
+                if (ArticialMemoryList.Count > 0)
                 {
-                    int tmp = AIPressButton(AIPlaysRandom());
-                    if (!AICheckAMLforCard(tmp))
+                    if (!AICheckAMLforPair())
                     {
-                        AIPressButton(AIPlaysRandom());
+                        int tmp = AIPressButton(AIPlaysRandom());
+                        if (!AICheckAMLforCard(tmp))
+                        {
+                            AIPressButton(AIPlaysRandom());
+                        }
                     }
                 }
+                else
+                {
+                    AIPressButton(AIPlaysRandom());
+                    AIPressButton(AIPlaysRandom());
+                }
                 DisplayerAML();
-                //AIPressButton(AIPlaysRandom());
-                //AIPressButton(AIPlaysRandom());
+
                 counter = 0;
                 player = 1;
                 left_two_lbl.Content = player;
@@ -334,9 +314,9 @@ namespace Memo
             }
             prev = cur;
         }
-        int AIPressButton(int i) // Edited so it returns the number of the last played card
+        int AIPressButton(int i)
         {
-            AddAml(i, limit); 
+            AddAml(i); 
             counter++;
             if (counter == 3)
             {
@@ -385,19 +365,26 @@ namespace Memo
             Debug.WriteLine("AIPlaysRandom Method has generated: " + returnVal);
             return returnVal;
         }
-        bool AICheckAMLforPair() // this can be a bit improved to be more efficient
+        bool AICheckAMLforPair()
         {
             for (int i = 0; i < ArticialMemoryList.Count; i++)
             {
-                for (int j = 0; j < ArticialMemoryList.Count; j++)
+                for (int j = i+1; j < ArticialMemoryList.Count; j++)
                 {
                     if ((i != j) && 
-                        (Cards[ArticialMemoryList[i]].name == Cards[ArticialMemoryList[j]].name)) // blad
+                        (Cards[ArticialMemoryList[i]].name == Cards[ArticialMemoryList[j]].name))
                     {
                         Debug.WriteLine("AICheckAMLforPair method has found a pair:");
                         Debug.WriteLine("Card One: {0}, {1}", ArticialMemoryList[i], Cards[ArticialMemoryList[i]].name);
                         Debug.WriteLine("Card Two: {0}, {1}", ArticialMemoryList[j], Cards[ArticialMemoryList[j]].name);
                         AIPressButton(ArticialMemoryList[i]);
+                        Debug.WriteLine("______ j:     " + j);
+                        Debug.WriteLine("_______ count: " + ArticialMemoryList.Count);
+                        if (j == ArticialMemoryList.Count) j--;
+                        // there is an issue with remove. 
+                        //It finds a pair, 
+                        //remove a card, 
+                        //plays a card, sometimes the one it just removed and throws an exception
                         AIPressButton(ArticialMemoryList[j]);
                         return true;
                     }
@@ -411,7 +398,7 @@ namespace Memo
             for (int i = 0; i < ArticialMemoryList.Count; i++)
             {
                 if ((ArticialMemoryList[i] != prevPlayedCardIndex) && 
-                    (Cards[ArticialMemoryList[i]].name == Cards[prevPlayedCardIndex].name)) // is the name essential?
+                    (Cards[ArticialMemoryList[i]] == Cards[prevPlayedCardIndex])) // is the name essential? Testing without name
                 {
                     Debug.WriteLine("AICheckAMLforCards has found a valid card");
                     Debug.WriteLine("Previous Card: {0} , {1}", prevPlayedCardIndex, Cards[prevPlayedCardIndex].name);
@@ -423,12 +410,12 @@ namespace Memo
             Debug.WriteLine("AICheckAMLforCards has NOT found a valid card");
             return false;
         }
-        void AddAml(int value, int arglimit)
+        void AddAml(int value) // faulty
         {
-            if (ArticialMemoryList.Count == arglimit)
+            if (ArticialMemoryList.Count == limit)
             {
-                Debug.WriteLine("Method AddAml Removes: " + ArticialMemoryList[arglimit-1]);
-                ArticialMemoryList.RemoveAt(arglimit-1);// Change when limit becomes fluid
+                Debug.WriteLine("Method AddAml Removes: " + ArticialMemoryList[limit-1]);
+                ArticialMemoryList.RemoveAt(limit-1);// Change when limit becomes fluid
             }
             foreach (var item in ArticialMemoryList) // BETA: Should prevent from adding duplicates
             {
@@ -437,7 +424,7 @@ namespace Memo
             ArticialMemoryList.Insert(0, value);
             Debug.WriteLine("Method AddAml Adds: " + value);
         }
-        void RemoveAml() // will this work? Its edits the collection
+        void RemoveAml()
         {
             List<int> tmpList = new List<int>(); // could make it more elegant
             foreach (var item in ArticialMemoryList)
