@@ -22,6 +22,8 @@ namespace Memo
     /// </summary>
     public partial class MainWindow : Window
     {
+        List<int> ArticialMemoryList = new List<int>(5);
+        int limit = 1; // set to change
         List<Image> Images;
         List<Card> Cards = new List<Card>
         {
@@ -69,8 +71,34 @@ namespace Memo
             SetMode(GameMode);
             Reset();
 
+            #region TestAML
+            //test Add/Remove AML
+            //AddAml(1, limit);
+            //AddAml(2, limit);
+            //AddAml(3, limit);
+            //AddAml(4, limit);
+            //AddAml(5, limit);
+            //AddAml(6, limit);
+            //AddAml(7, limit);
+            //AddAml(8, limit);
+            //Debug.WriteLine("AML: Add");
+            //foreach (var item in ArticialMemoryList)
+            //{
+            //    Debug.WriteLine(item);
+            //}
+            //Cards[1].discovered_p1 = true;
+            //Cards[2].discovered_p1 = true;
+            //Cards[3].discovered_p1 = true;
+            //Cards[4].discovered_p1 = true;
+            //RemoveAml();
+            //Debug.WriteLine("AML: Remove");
+            //foreach (var item in ArticialMemoryList)
+            //{
+            //    Debug.WriteLine(item);
+            //}
+            ////Works
+            #endregion
         }
-
         void SetMode(GameModeSettings Mode)
         {
             if (Mode == GameModeSettings.SP)
@@ -114,7 +142,7 @@ namespace Memo
                 }
             }
         }
-        bool Victory()
+        bool Victory() //First go returns true, but last one resets everything and it returns false.
         {
             int victoryCounter = 0;
             int scoreP1 = 0;
@@ -255,6 +283,7 @@ namespace Memo
         }
         void AIButton(int i) 
         {
+            AddAml(i, limit);
             counter++;
             Images[i].Source = Cards[i].img_highlight; 
             cur = Cards[i].name;
@@ -272,6 +301,7 @@ namespace Memo
                          Reset();
                         }
                     }
+                    RemoveAml();
                 }
                 counter = 0;
                 bool tmpVictory = Victory();
@@ -280,8 +310,19 @@ namespace Memo
                 left_two_lbl.Content = player;
                 MessageBox.Show("Press OK to ::begin:: AI turn", "Need a more elegant solution");
                 Reset();
-                AIPressButton(AIPlaysRandom());
-                AIPressButton(AIPlaysRandom());
+                Debug.WriteLine("");
+                DisplayerAML();
+                if (!AICheckAMLforPair())
+                {
+                    int tmp = AIPressButton(AIPlaysRandom());
+                    if (!AICheckAMLforCard(tmp))
+                    {
+                        AIPressButton(AIPlaysRandom());
+                    }
+                }
+                DisplayerAML();
+                //AIPressButton(AIPlaysRandom());
+                //AIPressButton(AIPlaysRandom());
                 counter = 0;
                 player = 1;
                 left_two_lbl.Content = player;
@@ -293,8 +334,9 @@ namespace Memo
             }
             prev = cur;
         }
-        void AIPressButton(int i)
+        int AIPressButton(int i) // Edited so it returns the number of the last played card
         {
+            AddAml(i, limit); 
             counter++;
             if (counter == 3)
             {
@@ -317,10 +359,12 @@ namespace Memo
                          Reset();
                         }
                     }
+                    RemoveAml();
                 }
             }
             prev = cur;
             Victory(); // If AI has the last move, we get the messagebox
+            return i;
         }
         int AIPlaysRandom()
         {
@@ -338,7 +382,75 @@ namespace Memo
             System.Threading.Thread.Sleep(100); // comment this to make AI master guesser
             int returnVal = tmpList[random.Next(tmpList.Count)];
             generatorTMP = returnVal;
+            Debug.WriteLine("AIPlaysRandom Method has generated: " + returnVal);
             return returnVal;
+        }
+        bool AICheckAMLforPair() // this can be a bit improved to be more efficient
+        {
+            for (int i = 0; i < ArticialMemoryList.Count; i++)
+            {
+                for (int j = 0; j < ArticialMemoryList.Count; j++)
+                {
+                    if ((i != j) && 
+                        (Cards[ArticialMemoryList[i]].name == Cards[ArticialMemoryList[j]].name)) // blad
+                    {
+                        Debug.WriteLine("AICheckAMLforPair method has found a pair:");
+                        Debug.WriteLine("Card One: {0}, {1}", ArticialMemoryList[i], Cards[ArticialMemoryList[i]].name);
+                        Debug.WriteLine("Card Two: {0}, {1}", ArticialMemoryList[j], Cards[ArticialMemoryList[j]].name);
+                        AIPressButton(ArticialMemoryList[i]);
+                        AIPressButton(ArticialMemoryList[j]);
+                        return true;
+                    }
+                }
+            }
+            Debug.WriteLine("AICheckAMLforPair method has NOT found a pair");
+            return false;
+        }
+        bool AICheckAMLforCard(int prevPlayedCardIndex)
+        {
+            for (int i = 0; i < ArticialMemoryList.Count; i++)
+            {
+                if ((ArticialMemoryList[i] != prevPlayedCardIndex) && 
+                    (Cards[ArticialMemoryList[i]].name == Cards[prevPlayedCardIndex].name)) // is the name essential?
+                {
+                    Debug.WriteLine("AICheckAMLforCards has found a valid card");
+                    Debug.WriteLine("Previous Card: {0} , {1}", prevPlayedCardIndex, Cards[prevPlayedCardIndex].name);
+                    Debug.WriteLine("Current  Card: {0} , {1}", ArticialMemoryList[i], Cards[prevPlayedCardIndex].name);
+                    AIPressButton(ArticialMemoryList[i]);
+                    return true;
+                }
+            }
+            Debug.WriteLine("AICheckAMLforCards has NOT found a valid card");
+            return false;
+        }
+        void AddAml(int value, int arglimit)
+        {
+            if (ArticialMemoryList.Count == arglimit)
+            {
+                Debug.WriteLine("Method AddAml Removes: " + ArticialMemoryList[arglimit-1]);
+                ArticialMemoryList.RemoveAt(arglimit-1);// Change when limit becomes fluid
+            }
+            foreach (var item in ArticialMemoryList) // BETA: Should prevent from adding duplicates
+            {
+                if (item == value) return;
+            }
+            ArticialMemoryList.Insert(0, value);
+            Debug.WriteLine("Method AddAml Adds: " + value);
+        }
+        void RemoveAml() // will this work? Its edits the collection
+        {
+            List<int> tmpList = new List<int>(); // could make it more elegant
+            foreach (var item in ArticialMemoryList)
+            {
+                if ((Cards[item].discovered_p1 == true) || (Cards[item].discovered_p2 == true))
+                {
+                    tmpList.Add(item);
+                }
+            }
+            foreach (var item in tmpList)
+            {
+                ArticialMemoryList.Remove(item);
+            }
         }
         void TestRandom()
         {
@@ -354,6 +466,20 @@ namespace Memo
             }
         }
 
+        void DisplayerAML()
+        {
+            Debug.Write("AML contains: ");
+            foreach (var item in ArticialMemoryList)
+            {
+                Debug.Write(item.ToString() + ", ");
+            }
+            Debug.WriteLine("");
+            foreach (var item in ArticialMemoryList)
+            {
+                Debug.Write(Cards[item].name + ", ");
+            }
+            Debug.WriteLine("");
+        }
         #region Buttons
         private void Button_1x1_Click(object sender, RoutedEventArgs e)
         {
@@ -470,18 +596,19 @@ namespace Memo
 
         private void AIEasy_Click(object sender, RoutedEventArgs e)
         {
-
+            limit = 2;
         }
 
         private void AIMedium_Click(object sender, RoutedEventArgs e)
         {
-
+            limit = 3;
         }
 
         private void AIHard_Click(object sender, RoutedEventArgs e)
         {
-
+            limit = 5;
         }
         #endregion
     }
 }
+
