@@ -22,7 +22,7 @@ namespace Memo
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<int> ArticialMemoryList = new List<int>(5);
+        List<int> ArtificialMemoryList = new List<int>(5);
         int limit = 3;
         List<Image> Images;
         List<Card> Cards = new List<Card>
@@ -114,7 +114,7 @@ namespace Memo
                 }
             }
         }
-        bool Victory() //First go returns true, but last one resets everything and it returns false.
+        bool Victory()
         {
             int victoryCounter = 0;
             int scoreP1 = 0;
@@ -175,7 +175,7 @@ namespace Memo
             player = 1;
 
             Cards.Shuffle<Card>();
-            ArticialMemoryList.Clear();
+            ArtificialMemoryList.Clear();
             Reset();
         }
         void PressButton(int i)
@@ -206,12 +206,13 @@ namespace Memo
                             Reset();
                         }
                     }
+                    Victory();
                 }
                 moveCounter++;
                 right_two_lbl.Content = moveCounter;
             }
             prev = cur;
-            Victory();
+
         }
         void MPButton(int i)
         {
@@ -247,12 +248,13 @@ namespace Memo
                             }
                         }
                     }
+                    Victory();
                 }
                 player = (player == 1) ? 2 : 1;
                 left_two_lbl.Content = player;
             }
             prev = cur;
-            Victory();
+
         }
         void AIButton(int i) 
         {
@@ -279,44 +281,49 @@ namespace Memo
                 counter = 0;
                 bool tmpVictory = Victory();
                 if (tmpVictory) return; 
+
+                // AI turn begins
+
                 player = 2;
                 left_two_lbl.Content = player;
                 MessageBox.Show("Press OK to ::begin:: AI turn", "Need a more elegant solution");
                 Reset();
                 Debug.WriteLine("");
                 DisplayerAML();
-                if (ArticialMemoryList.Count > 0)
+                if (ArtificialMemoryList.Count > 0)
                 {
                     if (!AICheckAMLforPair())
                     {
-                        int tmp = AIPressButton(AIPlaysRandom());
+                        int tmp = AIPressButton(AIPlaysRandom(), true);
                         if (!AICheckAMLforCard(tmp))
                         {
-                            AIPressButton(AIPlaysRandom());
+                            AIPressButton(AIPlaysRandom(), true);
                         }
                     }
                 }
                 else
                 {
-                    AIPressButton(AIPlaysRandom());
-                    AIPressButton(AIPlaysRandom());
+                    AIPressButton(AIPlaysRandom(), true);
+                    AIPressButton(AIPlaysRandom(), true);
                 }
                 DisplayerAML();
 
                 counter = 0;
                 player = 1;
                 left_two_lbl.Content = player;
-                if (tmpVictory == false) 
+                tmpVictory = Victory();
+                if (tmpVictory) return;
                 MessageBox.Show("Press OK to ::end:: AI turn", "Need a more elegant solution");
                 Reset();
-
-
             }
             prev = cur;
         }
-        int AIPressButton(int i)
+        int AIPressButton(int i, bool playedRandom)
         {
-            AddAml(i); 
+            if (playedRandom)
+            {
+            AddAml(i); // Should edit list when playing randoms only
+            }
             counter++;
             if (counter == 3)
             {
@@ -343,7 +350,7 @@ namespace Memo
                 }
             }
             prev = cur;
-            Victory(); // If AI has the last move, we get the messagebox
+            //Victory(); // If AI has the last move, we get the messagebox
             return i;
         }
         int AIPlaysRandom()
@@ -359,7 +366,6 @@ namespace Memo
             }           
             if(generatorTMP < 16) tmpList.Remove(generatorTMP); // comment this to make AI master guesser
             Random random = new Random();
-            System.Threading.Thread.Sleep(100); // comment this to make AI master guesser
             int returnVal = tmpList[random.Next(tmpList.Count)];
             generatorTMP = returnVal;
             Debug.WriteLine("AIPlaysRandom Method has generated: " + returnVal);
@@ -367,25 +373,20 @@ namespace Memo
         }
         bool AICheckAMLforPair()
         {
-            for (int i = 0; i < ArticialMemoryList.Count; i++)
+            for (int i = 0; i < ArtificialMemoryList.Count; i++)
             {
-                for (int j = i+1; j < ArticialMemoryList.Count; j++)
+                for (int j = i+1; j < ArtificialMemoryList.Count; j++)
                 {
                     if ((i != j) && 
-                        (Cards[ArticialMemoryList[i]].name == Cards[ArticialMemoryList[j]].name))
+                        (Cards[ArtificialMemoryList[i]].name == Cards[ArtificialMemoryList[j]].name))
                     {
                         Debug.WriteLine("AICheckAMLforPair method has found a pair:");
-                        Debug.WriteLine("Card One: {0}, {1}", ArticialMemoryList[i], Cards[ArticialMemoryList[i]].name);
-                        Debug.WriteLine("Card Two: {0}, {1}", ArticialMemoryList[j], Cards[ArticialMemoryList[j]].name);
-                        AIPressButton(ArticialMemoryList[i]);
+                        Debug.WriteLine("Card One: {0}, {1}", ArtificialMemoryList[i], Cards[ArtificialMemoryList[i]].name);
+                        Debug.WriteLine("Card Two: {0}, {1}", ArtificialMemoryList[j], Cards[ArtificialMemoryList[j]].name);
+                        AIPressButton(ArtificialMemoryList[i], false);
                         Debug.WriteLine("______ j:     " + j);
-                        Debug.WriteLine("_______ count: " + ArticialMemoryList.Count);
-                        if (j == ArticialMemoryList.Count) j--;
-                        // there is an issue with remove. 
-                        //It finds a pair, 
-                        //remove a card, 
-                        //plays a card, sometimes the one it just removed and throws an exception
-                        AIPressButton(ArticialMemoryList[j]);
+                        Debug.WriteLine("_______ count: " + ArtificialMemoryList.Count);
+                        AIPressButton(ArtificialMemoryList[j], false);
                         return true;
                     }
                 }
@@ -395,39 +396,39 @@ namespace Memo
         }
         bool AICheckAMLforCard(int prevPlayedCardIndex)
         {
-            for (int i = 0; i < ArticialMemoryList.Count; i++)
+            for (int i = 0; i < ArtificialMemoryList.Count; i++)
             {
-                if ((ArticialMemoryList[i] != prevPlayedCardIndex) && 
-                    (Cards[ArticialMemoryList[i]] == Cards[prevPlayedCardIndex])) // is the name essential? Testing without name
+                if ((ArtificialMemoryList[i] != prevPlayedCardIndex) && 
+                    (Cards[ArtificialMemoryList[i]] == Cards[prevPlayedCardIndex]))
                 {
                     Debug.WriteLine("AICheckAMLforCards has found a valid card");
                     Debug.WriteLine("Previous Card: {0} , {1}", prevPlayedCardIndex, Cards[prevPlayedCardIndex].name);
-                    Debug.WriteLine("Current  Card: {0} , {1}", ArticialMemoryList[i], Cards[prevPlayedCardIndex].name);
-                    AIPressButton(ArticialMemoryList[i]);
+                    Debug.WriteLine("Current  Card: {0} , {1}", ArtificialMemoryList[i], Cards[prevPlayedCardIndex].name);
+                    AIPressButton(ArtificialMemoryList[i], false);
                     return true;
                 }
             }
             Debug.WriteLine("AICheckAMLforCards has NOT found a valid card");
             return false;
         }
-        void AddAml(int value) // faulty
+        void AddAml(int value)
         {
-            if (ArticialMemoryList.Count == limit)
-            {
-                Debug.WriteLine("Method AddAml Removes: " + ArticialMemoryList[limit-1]);
-                ArticialMemoryList.RemoveAt(limit-1);// Change when limit becomes fluid
-            }
-            foreach (var item in ArticialMemoryList) // BETA: Should prevent from adding duplicates
+            foreach (var item in ArtificialMemoryList) //Should use hashset?
             {
                 if (item == value) return;
             }
-            ArticialMemoryList.Insert(0, value);
+            if (ArtificialMemoryList.Count == limit)
+            {
+                Debug.WriteLine("Method AddAml Removes: " + ArtificialMemoryList[limit-1]);
+                ArtificialMemoryList.RemoveAt(limit-1);
+            }
+            ArtificialMemoryList.Insert(0, value);
             Debug.WriteLine("Method AddAml Adds: " + value);
         }
         void RemoveAml()
         {
-            List<int> tmpList = new List<int>(); // could make it more elegant
-            foreach (var item in ArticialMemoryList)
+            List<int> tmpList = new List<int>();
+            foreach (var item in ArtificialMemoryList)
             {
                 if ((Cards[item].discovered_p1 == true) || (Cards[item].discovered_p2 == true))
                 {
@@ -436,7 +437,7 @@ namespace Memo
             }
             foreach (var item in tmpList)
             {
-                ArticialMemoryList.Remove(item);
+                ArtificialMemoryList.Remove(item);
             }
         }
         void TestRandom()
@@ -456,12 +457,12 @@ namespace Memo
         void DisplayerAML()
         {
             Debug.Write("AML contains: ");
-            foreach (var item in ArticialMemoryList)
+            foreach (var item in ArtificialMemoryList)
             {
                 Debug.Write(item.ToString() + ", ");
             }
             Debug.WriteLine("");
-            foreach (var item in ArticialMemoryList)
+            foreach (var item in ArtificialMemoryList)
             {
                 Debug.Write(Cards[item].name + ", ");
             }
