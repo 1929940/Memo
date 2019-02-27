@@ -25,6 +25,7 @@ namespace Memo
         List<int> ArtificialMemoryList = new List<int>(5);
         int limit = 3;
         List<Image> Images;
+        List<Button> Buttons;
         List<Card> Cards = new List<Card>
         {
             new Card("Arrow",       @"pack://application:,,,/Images/Arrow.jpg" ),
@@ -67,6 +68,13 @@ namespace Memo
                 Image_3x1,Image_3x2,Image_3x3,Image_3x4,
                 Image_4x1,Image_4x2,Image_4x3,Image_4x4,
             };
+            Buttons = new List<Button>()
+            {
+                Button_1x1, Button_1x2, Button_1x3, Button_1x4,
+                Button_2x1, Button_2x2, Button_2x3, Button_2x4,
+                Button_3x1, Button_3x2, Button_3x3, Button_3x4,
+                Button_4x1, Button_4x2, Button_4x3, Button_4x4,
+            };
             Cards.Shuffle<Card>();
             SetMode(GameMode);
             Reset();
@@ -103,10 +111,12 @@ namespace Memo
                 if (Cards[i].discovered_p1)
                 {
                     Images[i].Source = Cards[i].img_p1;
+                    Buttons[i].IsEnabled = false;
                 }
                 else if (Cards[i].discovered_p2)
                 {
                     Images[i].Source = Cards[i].img_p2;
+                    Buttons[i].IsEnabled = false;
                 }
                 else
                 {
@@ -185,7 +195,7 @@ namespace Memo
             else if (GameMode == GameModeSettings.AI) AIButton(i);
         }
         void SPButton(int i)
-        {
+        {        
             counter++;
             if (counter == 3)
             {
@@ -194,6 +204,7 @@ namespace Memo
             }
             Images[i].Source = Cards[i].img_highlight;
             cur = Cards[i].name;
+            Buttons[i].IsEnabled = false;
             if (counter == 2)
             {
                 if (cur == prev)
@@ -210,9 +221,22 @@ namespace Memo
                 }
                 moveCounter++;
                 right_two_lbl.Content = moveCounter;
+                EnableUndiscoveredButtons();
             }
             prev = cur;
 
+        }
+        void EnableUndiscoveredButtons()
+        {
+            Debug.WriteLine(" ");
+            for (int i = 0; i < Cards.Count; i++)
+            {
+                if ((Cards[i].discovered_p1 == false) && (Cards[i].discovered_p2 == false))
+                {
+                    Buttons[i].IsEnabled = true;
+                }
+            }
+                Debug.WriteLine(" ");
         }
         void MPButton(int i)
         {
@@ -224,6 +248,7 @@ namespace Memo
             }
             Images[i].Source = Cards[i].img_highlight;
             cur = Cards[i].name;
+            Buttons[i].IsEnabled = false;
             if (counter == 2)
             {
                 if (cur == prev)
@@ -252,6 +277,7 @@ namespace Memo
                 }
                 player = (player == 1) ? 2 : 1;
                 left_two_lbl.Content = player;
+                EnableUndiscoveredButtons();
             }
             prev = cur;
 
@@ -262,6 +288,7 @@ namespace Memo
             counter++;
             Images[i].Source = Cards[i].img_highlight; 
             cur = Cards[i].name;
+            Buttons[i].IsEnabled = false;
             if (counter == 2)
             {
                 if (cur == prev)
@@ -308,6 +335,7 @@ namespace Memo
                 }
                 DisplayerAML();
 
+                EnableUndiscoveredButtons();
                 counter = 0;
                 player = 1;
                 left_two_lbl.Content = player;
