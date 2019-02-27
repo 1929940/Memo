@@ -25,11 +25,11 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!-- Row 0-->
@@ -51,6 +51,8 @@
                     <MenuItem Header="Easy" Name="AIEasy" Click="AIEasy_Click"/>
                     <MenuItem Header="Medium" Name="AIMedium" Click="AIMedium_Click"/>
                     <MenuItem Header="Hard" Name="AIHard" Click="AIHard_Click"/>
+
+
                 </MenuItem>
             </MenuItem>
 
@@ -61,166 +63,17 @@
         <Label Content="Memo" FontFamily="Calibri" FontSize="30" HorizontalContentAlignment="Center"
                Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4"/>
 
-        
-        <!--Row 2-->
-        <Image Name="Image_1x1" 
-               Grid.Row="2" Grid.Column="0"
-               Margin="5"
-               Opacity="0.9"/>
-        <Button Name="Button_1x1"
-                Grid.Row="2" Grid.Column="0"
-                Margin="5"
-                Click="Button_1x1_Click" Opacity="0"/>
-
-        <Image Name="Image_1x2" 
-               Grid.Row="2" Grid.Column="1"
-               Margin="5"
-               Opacity="0.9"/>
-        <Button Name="Button_1x2"
-                Grid.Row="2" Grid.Column="1"
-                Margin="5"
-                Click="Button_1x2_Click" Opacity="0"/>
-
-        <Image Name="Image_1x3" 
-               Grid.Row="2" Grid.Column="2"
-               Margin="5"
-               Opacity="0.9"/>
-        <Button Name="Button_1x3"
-                Grid.Row="2" Grid.Column="2"
-                Margin="5"
-                Click="Button_1x3_Click" Opacity="0"/>
-
-        <Image Name="Image_1x4" 
-               Grid.Row="2" Grid.Column="3"
-               Margin="5"
-               Opacity="0.9"/>
-        <Button Name="Button_1x4"
-                Grid.Row="2" Grid.Column="3"
-                Margin="5"
-                Click="Button_1x4_Click" Opacity="0"/>
-
-        <!--Row 3-->
-        <Image Name="Image_2x1" 
-               Grid.Row="3" Grid.Column="0"
-               Margin="5"
-               Opacity="0.9"/>
-        <Button Name="Button_2x1"
-                Grid.Row="3" Grid.Column="0"
-                Margin="5"
-                Click="Button_2x1_Click" Opacity="0"/>
-
-        <Image Name="Image_2x2" 
-               Grid.Row="3" Grid.Column="1"
-               Margin="5"
-               Opacity="0.9"/>
-        <Button Name="Button_2x2"
-                Grid.Row="3" Grid.Column="1"
-                Margin="5"
-                Click="Button_2x2_Click" Opacity="0"/>
-
-        <Image Name="Image_2x3" 
-               Grid.Row="3" Grid.Column="2"
-               Margin="5"
-               Opacity="0.9"/>
-        <Button Name="Button_2x3"
-                Grid.Row="3" Grid.Column="2"
-                Margin="5"
-                Click="Button_2x3_Click" Opacity="0"/>
-
-        <Image Name="Image_2x4" 
-               Grid.Row="3" Grid.Column="3"
-               Margin="5"
-               Opacity="0.9"/>
-        <Button Name="Button_2x4"
-                Grid.Row="3" Grid.Column="3"
-                Margin="5"
-                Click="Button_2x4_Click" Opacity="0"/>
-
-        <!--Row 4-->
-        <Image Name="Image_3x1" 
-               Grid.Row="4" Grid.Column="0"
-               Margin="5"
-               Opacity="0.9"/>
-        <Button Name="Button_3x1"
-                Grid.Row="4" Grid.Column="0"
-                Margin="5"
-                Click="Button_3x1_Click" Opacity="0"/>
-
-        <Image Name="Image_3x2" 
-               Grid.Row="4" Grid.Column="1"
-               Margin="5"
-               Opacity="0.9"/>
-        <Button Name="Button_3x2"
-                Grid.Row="4" Grid.Column="1"
-                Margin="5"
-                Click="Button_3x2_Click" Opacity="0"/>
-
-        <Image Name="Image_3x3" 
-               Grid.Row="4" Grid.Column="2"
-               Margin="5"
-               Opacity="0.9"/>
-        <Button Name="Button_3x3"
-                Grid.Row="4" Grid.Column="2"
-                Margin="5"
-                Click="Button_3x3_Click" Opacity="0"/>
-
-        <Image Name="Image_3x4" 
-               Grid.Row="4" Grid.Column="3"
-               Margin="5"
-               Opacity="0.9"/>
-        <Button Name="Button_3x4"
-                Grid.Row="4" Grid.Column="3"
-                Margin="5"
-                Click="Button_3x4_Click" Opacity="0"/>
-
-        <!--Row 5-->
-        <Image Name="Image_4x1" 
-               Grid.Row="5" Grid.Column="0"
-               Margin="5"
-               Opacity="0.9"/>
-        <Button Name="Button_4x1"
-                Grid.Row="5" Grid.Column="0"
-                Margin="5"
-                Click="Button_4x1_Click" Opacity="0"/>
-
-        <Image Name="Image_4x2" 
-               Grid.Row="5" Grid.Column="1"
-               Margin="5"
-               Opacity="0.9"/>
-        <Button Name="Button_4x2"
-                Grid.Row="5" Grid.Column="1"
-                Margin="5"
-                Click="Button_4x2_Click" Opacity="0"/>
-
-        <Image Name="Image_4x3" 
-               Grid.Row="5" Grid.Column="2"
-               Margin="5"
-               Opacity="0.9"/>
-        <Button Name="Button_4x3"
-                Grid.Row="5" Grid.Column="2"
-                Margin="5"
-                Click="Button_4x3_Click" Opacity="0"/>
-
-        <Image Name="Image_4x4" 
-               Grid.Row="5" Grid.Column="3"
-               Margin="5"
-               Opacity="0.9"/>
-        <Button Name="Button_4x4"
-                Grid.Row="5" Grid.Column="3"
-                Margin="5"
-                Click="Button_4x4_Click" Opacity="0"/>
-        
-        <!-- Row 6-->
+        <!-- Row 2-->
         <StackPanel Margin="0,0,5,0"
-                    Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top"
-                    Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2">
+                    Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top"
+                    Grid.Row="2" Grid.Column="0">
             <Label Name="left_one_lbl"/>
             <Label Name="left_two_lbl"/>
         </StackPanel>
 
         <StackPanel Margin="0,0,5,0"
                     Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top"
-                    Grid.Row="6" Grid.Column="2">
+                    Grid.Row="2" Grid.Column="2">
             <Label Name="mid_one_lbl"/>
             <Label Name="mid_two_lbl"/>
         </StackPanel>
@@ -228,10 +81,163 @@
 
         <StackPanel Margin="0,0,5,0"
                     Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top"
-                    Grid.Row="6" Grid.Column="3">
+                    Grid.Row="2" Grid.Column="3">
             <Label Name="right_one_lbl"/>
             <Label Name="right_two_lbl"/>
         </StackPanel>
+
+
+
+
+        <!--Row 3-->
+        <Image Name="Image_1x1" 
+               Grid.Row="3" Grid.Column="0"
+               Margin="5"
+               Opacity="0.9"/>
+        <Button Name="Button_1x1"
+                Grid.Row="3" Grid.Column="0"
+                Margin="5"
+                Click="Button_1x1_Click" Opacity="0"/>
+
+        <Image Name="Image_1x2" 
+               Grid.Row="3" Grid.Column="1"
+               Margin="5"
+               Opacity="0.9"/>
+        <Button Name="Button_1x2"
+                Grid.Row="3" Grid.Column="1"
+                Margin="5"
+                Click="Button_1x2_Click" Opacity="0"/>
+
+        <Image Name="Image_1x3" 
+               Grid.Row="3" Grid.Column="2"
+               Margin="5"
+               Opacity="0.9"/>
+        <Button Name="Button_1x3"
+                Grid.Row="3" Grid.Column="2"
+                Margin="5"
+                Click="Button_1x3_Click" Opacity="0"/>
+
+        <Image Name="Image_1x4" 
+               Grid.Row="3" Grid.Column="3"
+               Margin="5"
+               Opacity="0.9"/>
+        <Button Name="Button_1x4"
+                Grid.Row="3" Grid.Column="3"
+                Margin="5"
+                Click="Button_1x4_Click" Opacity="0"/>
+
+        <!--Row 4-->
+        <Image Name="Image_2x1" 
+               Grid.Row="4" Grid.Column="0"
+               Margin="5"
+               Opacity="0.9"/>
+        <Button Name="Button_2x1"
+                Grid.Row="4" Grid.Column="0"
+                Margin="5"
+                Click="Button_2x1_Click" Opacity="0"/>
+
+        <Image Name="Image_2x2" 
+               Grid.Row="4" Grid.Column="1"
+               Margin="5"
+               Opacity="0.9"/>
+        <Button Name="Button_2x2"
+                Grid.Row="4" Grid.Column="1"
+                Margin="5"
+                Click="Button_2x2_Click" Opacity="0"/>
+
+        <Image Name="Image_2x3" 
+               Grid.Row="4" Grid.Column="2"
+               Margin="5"
+               Opacity="0.9"/>
+        <Button Name="Button_2x3"
+                Grid.Row="4" Grid.Column="2"
+                Margin="5"
+                Click="Button_2x3_Click" Opacity="0"/>
+
+        <Image Name="Image_2x4" 
+               Grid.Row="4" Grid.Column="3"
+               Margin="5"
+               Opacity="0.9"/>
+        <Button Name="Button_2x4"
+                Grid.Row="4" Grid.Column="3"
+                Margin="5"
+                Click="Button_2x4_Click" Opacity="0"/>
+
+        <!--Row 5-->
+        <Image Name="Image_3x1" 
+               Grid.Row="5" Grid.Column="0"
+               Margin="5"
+               Opacity="0.9"/>
+        <Button Name="Button_3x1"
+                Grid.Row="5" Grid.Column="0"
+                Margin="5"
+                Click="Button_3x1_Click" Opacity="0"/>
+
+        <Image Name="Image_3x2" 
+               Grid.Row="5" Grid.Column="1"
+               Margin="5"
+               Opacity="0.9"/>
+        <Button Name="Button_3x2"
+                Grid.Row="5" Grid.Column="1"
+                Margin="5"
+                Click="Button_3x2_Click" Opacity="0"/>
+
+        <Image Name="Image_3x3" 
+               Grid.Row="5" Grid.Column="2"
+               Margin="5"
+               Opacity="0.9"/>
+        <Button Name="Button_3x3"
+                Grid.Row="5" Grid.Column="2"
+                Margin="5"
+                Click="Button_3x3_Click" Opacity="0"/>
+
+        <Image Name="Image_3x4" 
+               Grid.Row="5" Grid.Column="3"
+               Margin="5"
+               Opacity="0.9"/>
+        <Button Name="Button_3x4"
+                Grid.Row="5" Grid.Column="3"
+                Margin="5"
+                Click="Button_3x4_Click" Opacity="0"/>
+
+        <!--Row 6-->
+        <Image Name="Image_4x1" 
+               Grid.Row="6" Grid.Column="0"
+               Margin="5"
+               Opacity="0.9"/>
+        <Button Name="Button_4x1"
+                Grid.Row="6" Grid.Column="0"
+                Margin="5"
+                Click="Button_4x1_Click" Opacity="0"/>
+
+        <Image Name="Image_4x2" 
+               Grid.Row="6" Grid.Column="1"
+               Margin="5"
+               Opacity="0.9"/>
+        <Button Name="Button_4x2"
+                Grid.Row="6" Grid.Column="1"
+                Margin="5"
+                Click="Button_4x2_Click" Opacity="0"/>
+
+        <Image Name="Image_4x3" 
+               Grid.Row="6" Grid.Column="2"
+               Margin="5"
+               Opacity="0.9"/>
+        <Button Name="Button_4x3"
+                Grid.Row="6" Grid.Column="2"
+                Margin="5"
+                Click="Button_4x3_Click" Opacity="0"/>
+
+        <Image Name="Image_4x4" 
+               Grid.Row="6" Grid.Column="3"
+               Margin="5"
+               Opacity="0.9"/>
+        <Button Name="Button_4x4"
+                Grid.Row="6" Grid.Column="3"
+                Margin="5"
+                Click="Button_4x4_Click" Opacity="0"/>
+        
+
         
 
     </Grid>

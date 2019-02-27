@@ -77,10 +77,22 @@ namespace Memo
             };
             Cards.Shuffle<Card>();
             SetMode(GameMode);
+            Image dot = new Image
+            {
+                Source = new BitmapImage(new Uri(@"pack://application:,,,/Images/dot.png"))
+            };
+            AIMedium.Icon = dot;
             Reset();
+
+
         }
         void SetMode(GameModeSettings Mode)
         {
+            Image dot = new Image
+            {
+                Source = new BitmapImage(new Uri(@"pack://application:,,,/Images/dot.png"))
+            };
+
             if (Mode == GameModeSettings.SP)
             {
                 left_one_lbl.Content = String.Empty;
@@ -91,6 +103,26 @@ namespace Memo
 
                 right_one_lbl.Content = "Moves: ";
                 right_two_lbl.Content = moveCounter;
+
+                VsNone.Icon = dot;
+                VsAnother.Icon = "";
+                VsAI.Icon = "";
+
+            }
+            else if (Mode == GameModeSettings.MP)
+            {
+                left_one_lbl.Content = "Now Playing:";
+                left_two_lbl.Content = player;
+
+                mid_one_lbl.Content = "P1 Score: ";
+                mid_two_lbl.Content = playerOneScore;
+
+                right_one_lbl.Content = "P2 Score: ";
+                right_two_lbl.Content = playerTwoScore;
+
+                VsNone.Icon = "";
+                VsAnother.Icon = dot;
+                VsAI.Icon = "";
             }
             else
             {
@@ -102,6 +134,10 @@ namespace Memo
 
                 right_one_lbl.Content = "P2 Score: ";
                 right_two_lbl.Content = playerTwoScore;
+
+                VsNone.Icon = "";
+                VsAnother.Icon = "";
+                VsAI.Icon = dot;
             }
         }
         void Reset()
@@ -602,16 +638,37 @@ namespace Memo
         private void AIEasy_Click(object sender, RoutedEventArgs e)
         {
             limit = 2;
+            Image dot = new Image
+            {
+                Source = new BitmapImage(new Uri(@"pack://application:,,,/Images/dot.png"))
+            };
+            AIEasy.Icon = dot;
+            AIMedium.Icon = "";
+            AIHard.Icon = "";
         }
 
         private void AIMedium_Click(object sender, RoutedEventArgs e)
         {
             limit = 3;
+            Image dot = new Image
+            {
+                Source = new BitmapImage(new Uri(@"pack://application:,,,/Images/dot.png"))
+            };
+            AIEasy.Icon = "";
+            AIMedium.Icon = dot;
+            AIHard.Icon = "";
         }
 
         private void AIHard_Click(object sender, RoutedEventArgs e)
         {
             limit = 5;
+            Image dot = new Image
+            {
+                Source = new BitmapImage(new Uri(@"pack://application:,,,/Images/dot.png"))
+            };
+            AIEasy.Icon = "";
+            AIMedium.Icon = "";
+            AIHard.Icon = dot;
         }
         #endregion
     }
