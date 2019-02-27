@@ -222,6 +222,7 @@ namespace Memo
 
             Cards.Shuffle<Card>();
             ArtificialMemoryList.Clear();
+            EnableUndiscoveredButtons();
             Reset();
         }
         void PressButton(int i)
