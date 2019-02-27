@@ -316,7 +316,6 @@ namespace Memo
                 MessageBox.Show("Press OK to ::begin:: AI turn", "Need a more elegant solution");
                 Reset();
                 Debug.WriteLine("");
-                DisplayerAML();
                 if (ArtificialMemoryList.Count > 0)
                 {
                     if (!AICheckAMLforPair())
@@ -333,7 +332,6 @@ namespace Memo
                     AIPressButton(AIPlaysRandom(), true);
                     AIPressButton(AIPlaysRandom(), true);
                 }
-                DisplayerAML();
 
                 EnableUndiscoveredButtons();
                 counter = 0;
@@ -378,7 +376,6 @@ namespace Memo
                 }
             }
             prev = cur;
-            //Victory(); // If AI has the last move, we get the messagebox
             return i;
         }
         int AIPlaysRandom()
@@ -392,7 +389,7 @@ namespace Memo
                     tmpList.Add(i);
                 }
             }           
-            if(generatorTMP < 16) tmpList.Remove(generatorTMP); // comment this to make AI master guesser
+            if(generatorTMP < 16) tmpList.Remove(generatorTMP);
             Random random = new Random();
             int returnVal = tmpList[random.Next(tmpList.Count)];
             generatorTMP = returnVal;
@@ -429,14 +426,10 @@ namespace Memo
                 if ((ArtificialMemoryList[i] != prevPlayedCardIndex) && 
                     (Cards[ArtificialMemoryList[i]] == Cards[prevPlayedCardIndex]))
                 {
-                    Debug.WriteLine("AICheckAMLforCards has found a valid card");
-                    Debug.WriteLine("Previous Card: {0} , {1}", prevPlayedCardIndex, Cards[prevPlayedCardIndex].name);
-                    Debug.WriteLine("Current  Card: {0} , {1}", ArtificialMemoryList[i], Cards[prevPlayedCardIndex].name);
                     AIPressButton(ArtificialMemoryList[i], false);
                     return true;
                 }
             }
-            Debug.WriteLine("AICheckAMLforCards has NOT found a valid card");
             return false;
         }
         void AddAml(int value)
@@ -447,11 +440,9 @@ namespace Memo
             }
             if (ArtificialMemoryList.Count == limit)
             {
-                Debug.WriteLine("Method AddAml Removes: " + ArtificialMemoryList[limit-1]);
                 ArtificialMemoryList.RemoveAt(limit-1);
             }
             ArtificialMemoryList.Insert(0, value);
-            Debug.WriteLine("Method AddAml Adds: " + value);
         }
         void RemoveAml()
         {
@@ -468,20 +459,18 @@ namespace Memo
                 ArtificialMemoryList.Remove(item);
             }
         }
+        // Debuging Methods
         void TestRandom()
         {
             for (int i = 0; i < 10; i++) // od 0 do 9 Carty sa odkryte, ich nie powinno losowac
             {
                 Cards[i].discovered_p1 = true;
             }
-            Debug.WriteLine("Generating Using method");
             for (int i = 0; i < 100; i++)
             {
                 System.Threading.Thread.Sleep(10); // prevents from generating the same number
-                Debug.WriteLine(i + ":                            " + AIPlaysRandom() + Environment.NewLine);
             }
         }
-
         void DisplayerAML()
         {
             Debug.Write("AML contains: ");
