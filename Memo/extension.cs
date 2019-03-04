@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Memo
 {
-    static class Extension
+    public static class Extension
     {
         private static Random rng = new Random();
 

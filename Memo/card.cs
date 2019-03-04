@@ -8,7 +8,7 @@ using System.Windows.Media.Imaging;
 
 namespace Memo
 {
-    class Card // Perhaps I should make another card class, a child of this, for player 1 and 2.
+    public class Card // Perhaps I should make another card class, a child of this, for player 1 and 2.
     {
         public string name;
         public BitmapImage img_highlight;
