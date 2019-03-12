@@ -63,8 +63,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="card.cs" />
-    <Compile Include="extension.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -135,6 +133,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\dot.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\memoLibrary\memoLibrary.csproj">
+      <Project>{565F17C9-8E20-4E5D-9BB2-29B473AB6A35}</Project>
+      <Name>memoLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
