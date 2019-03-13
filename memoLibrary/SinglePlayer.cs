@@ -9,7 +9,7 @@ namespace memoLibrary
 {
     public class SinglePlayer : INotifyPropertyChanged
     {
-        List<Card> Cards = new List<Card> // I might have to move Images to lib project
+        internal List<Card> Cards = new List<Card> // I might have to move Images to lib project
         {
             new Card("Arrow",       @"pack://application:,,,/Images/Arrow.jpg" ),
             new Card("Arrow",       @"pack://application:,,,/Images/Arrow.jpg" ),
@@ -29,13 +29,13 @@ namespace memoLibrary
             new Card("Triangle",    @"pack://application:,,,/Images/Triangle.jpg"),
         };
 
-        public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
+        public virtual event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
 
-        private int Counter { get; set; } = 0;
-        private string PreviousCard { get; set; } = String.Empty;
-        private string CurrentCard { get; set; } = String.Empty;
+        internal int Counter { get; set; } = 0;
+        internal string PreviousCard { get; set; } = String.Empty;
+        internal string CurrentCard { get; set; } = String.Empty;
+        private int _MoveCounter; // Does this have to be internal as well?
 
-        private int _MoveCounter;
 
         public int MoveCounter
         {
@@ -54,7 +54,6 @@ namespace memoLibrary
         public delegate void AdjustButtonStatus(int i, bool flag);
         public delegate void UpdateImageSource(int i, string path);
         public delegate void DisplayVictoryMessage(string message);
-
         #endregion 
 
         public SinglePlayer(AdjustButtonStatus adjustButtonStatus, UpdateImageSource updateImageSource)
@@ -77,7 +76,8 @@ namespace memoLibrary
             // this will reset
         }
 
-        public bool SPButton(int i, AdjustButtonStatus adjustButtonStatus, 
+        //Button Needs renaming: No point in have different names
+        public virtual bool PlayButton(int i, AdjustButtonStatus adjustButtonStatus, 
             UpdateImageSource updateImageSource,
             DisplayVictoryMessage displayVictoryMessage)
         {
@@ -112,7 +112,7 @@ namespace memoLibrary
             return false;
         }
 
-        public void Reset(UpdateImageSource updateImageSource)
+        public virtual void Reset(UpdateImageSource updateImageSource)
         {
             for (int i = 0; i < Cards.Count; i++)
             {
@@ -130,7 +130,7 @@ namespace memoLibrary
             }
         }
 
-        bool Victory(DisplayVictoryMessage displayVictoryMessage)
+        internal virtual bool Victory(DisplayVictoryMessage displayVictoryMessage)
         {
             int score = 0;
             foreach (var item in Cards)
@@ -146,7 +146,7 @@ namespace memoLibrary
             return false;
         }
 
-        public void EnableUndiscoveredButtons(AdjustButtonStatus adjustButtonStatus)
+        public virtual void EnableUndiscoveredButtons(AdjustButtonStatus adjustButtonStatus)
         {
             for (int i = 0; i < Cards.Count; i++)
             {

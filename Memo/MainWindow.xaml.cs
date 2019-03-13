@@ -38,8 +38,8 @@ namespace Memo
         //int generatorTMP = 16;
         //string cur = String.Empty;
         //string prev = String.Empty;
-        enum GameModeSettings { SP, MP, AI };
-        GameModeSettings GameMode = GameModeSettings.SP;
+        //enum GameModeSettings { SP, MP, AI };
+        //GameModeSettings GameMode = GameModeSettings.MP;
         //int player = 1;
         SinglePlayer SP;
 
@@ -69,20 +69,10 @@ namespace Memo
             };
             AIMedium.Icon = dot;
 
-            SP = new SinglePlayer(AdjustButtonStatusWPF, UpdateImageSourceWPF);
-            SetMode(GameMode);
+            GameModesProcessor.Setting = GameModesProcessor.Modes.MP;
+            SP = GameModesProcessor.CreateGame(AdjustButtonStatusWPF, UpdateImageSourceWPF);
+            ConfigureDisplayWPF();
 
-            SP.Reset(UpdateImageSourceWPF);
-
-            Binding(right_two_lbl, "MoveCounter");
-        }
-        public void Binding(Label labelName, string propName)
-        {
-            Binding myBinding = new Binding();
-            myBinding.Source = SP;
-            myBinding.Path = new PropertyPath(propName);
-            myBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            BindingOperations.SetBinding(labelName, Label.ContentProperty, myBinding);
         }
 
         #region Delegate Methods
@@ -101,10 +91,18 @@ namespace Memo
 
         #endregion
 
-        void SetMode(GameModeSettings Mode)
+        public void Binding(Label labelName, string propName)
         {
+            Binding myBinding = new Binding();
+            myBinding.Source = SP;
+            myBinding.Path = new PropertyPath(propName);
+            myBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            BindingOperations.SetBinding(labelName, Label.ContentProperty, myBinding);
+        }
 
-            if (Mode == GameModeSettings.SP)
+        private void ConfigureDisplayWPF()
+        {
+            if (GameModesProcessor.Setting == GameModesProcessor.Modes.SP)
             {
                 left_one_lbl.Content = String.Empty;
                 left_two_lbl.Content = String.Empty;
@@ -113,30 +111,73 @@ namespace Memo
                 mid_two_lbl.Content = String.Empty;
 
                 right_one_lbl.Content = "Moves: ";
-                right_two_lbl.Content = SP.MoveCounter;
+                //right_two_lbl.Content = SP.MoveCounter;
+                Binding(right_two_lbl, "MoveCounter");
 
                 VsNone.Icon = dot;
                 VsAnother.Icon = "";
                 VsAI.Icon = "";
-
             }
-            else if (Mode == GameModeSettings.MP)
+            else if (GameModesProcessor.Setting == GameModesProcessor.Modes.MP)
             {
-                //left_one_lbl.Content = "Now Playing:";
-                //left_two_lbl.Content = player;
+                left_one_lbl.Content = "Now Playing:";
+                //left_two_lbl.Content = Player;
+                Binding(left_two_lbl, "Player");
 
-                //mid_one_lbl.Content = "P1 Score: ";
-                //mid_two_lbl.Content = playerOneScore;
+                mid_one_lbl.Content = "P1 Score: ";
+                //mid_two_lbl.Content = PlayerOneScore;
+                Binding(mid_two_lbl, "PlayerOneScore");
 
-                //right_one_lbl.Content = "P2 Score: ";
-                //right_two_lbl.Content = playerTwoScore;
+                right_one_lbl.Content = "P2 Score: ";
+                //right_two_lbl.Content = PlayerTwoScore;
+                Binding(right_two_lbl, "PlayerTwoScore");
 
-                //VsNone.Icon = "";
-                //VsAnother.Icon = dot;
-                //VsAI.Icon = "";
+                VsNone.Icon = "";
+                VsAnother.Icon = dot;
+                VsAI.Icon = "";
             }
             else
             {
+
+            }
+        }
+
+        //void SetMode(GameModeSettings Mode)
+        //{
+
+        //    if (Mode == GameModeSettings.SP)
+        //    {
+        //        left_one_lbl.Content = String.Empty;
+        //        left_two_lbl.Content = String.Empty;
+
+        //        mid_one_lbl.Content = String.Empty;
+        //        mid_two_lbl.Content = String.Empty;
+
+        //        right_one_lbl.Content = "Moves: ";
+        //        right_two_lbl.Content = SP.MoveCounter;
+
+        //        VsNone.Icon = dot;
+        //        VsAnother.Icon = "";
+        //        VsAI.Icon = "";
+
+        //    }
+        //    else if (Mode == GameModeSettings.MP)
+        //    {
+        //        //left_one_lbl.Content = "Now Playing:";
+        //        //left_two_lbl.Content = player;
+
+        //        //mid_one_lbl.Content = "P1 Score: ";
+        //        //mid_two_lbl.Content = playerOneScore;
+
+        //        //right_one_lbl.Content = "P2 Score: ";
+        //        //right_two_lbl.Content = playerTwoScore;
+
+        //        //VsNone.Icon = "";
+        //        //VsAnother.Icon = dot;
+        //        //VsAI.Icon = "";
+        //    }
+        //    else
+        //    {
                 //left_one_lbl.Content = "Now Playing:";
                 //left_two_lbl.Content = player;
 
@@ -149,8 +190,8 @@ namespace Memo
                 //VsNone.Icon = "";
                 //VsAnother.Icon = "";
                 //VsAI.Icon = dot;
-            }
-        }
+            //}
+        //}
         //void Reset()
         //{
         //    for (int i = 0; i < Images.Count; i++)
@@ -241,10 +282,10 @@ namespace Memo
 
         void PressButton(int i)
         {
-             if (SP.SPButton(i,AdjustButtonStatusWPF, UpdateImageSourceWPF, DisplayVictoryMessageWPF))
+             if (SP.PlayButton(i,AdjustButtonStatusWPF, UpdateImageSourceWPF, DisplayVictoryMessageWPF))
             {
-                SP = new SinglePlayer(AdjustButtonStatusWPF, UpdateImageSourceWPF);
-                Binding(right_two_lbl, "MoveCounter");
+                SP = GameModesProcessor.CreateGame(AdjustButtonStatusWPF, UpdateImageSourceWPF);
+                ConfigureDisplayWPF();
             }
             //if (GameMode == GameModeSettings.SP) SPButton(i);
             //else if (GameMode == GameModeSettings.MP) MPButton(i);
@@ -635,10 +676,8 @@ namespace Memo
         #region MenuEvents
         private void MenuNewGame_Click(object sender, RoutedEventArgs e)
         {
-            //ResetGame();
-            SP = new SinglePlayer(AdjustButtonStatusWPF, UpdateImageSourceWPF);
-            Binding(right_two_lbl, "MoveCounter");
-
+            SP = GameModesProcessor.CreateGame(AdjustButtonStatusWPF, UpdateImageSourceWPF);
+            ConfigureDisplayWPF();
         }
 
         private void MenuQuitGame_Click(object sender, RoutedEventArgs e)
@@ -648,22 +687,34 @@ namespace Memo
 
         private void VsNone_Click(object sender, RoutedEventArgs e)
         {
-            GameMode = GameModeSettings.SP;
-            SetMode(GameMode);
-            //ResetGame();
+            GameModesProcessor.Setting = GameModesProcessor.Modes.SP;
+            SP = GameModesProcessor.CreateGame(AdjustButtonStatusWPF, UpdateImageSourceWPF);
+            ConfigureDisplayWPF();
+
+
+            //GameMode = GameModeSettings.SP;
+            //SetMode(GameMode);
         }
 
         private void VsAnother_Click(object sender, RoutedEventArgs e)
         {
-            GameMode = GameModeSettings.MP;
-            SetMode(GameMode);
+            GameModesProcessor.Setting = GameModesProcessor.Modes.MP;
+            SP = GameModesProcessor.CreateGame(AdjustButtonStatusWPF, UpdateImageSourceWPF);
+            ConfigureDisplayWPF();
+
+            //GameMode = GameModeSettings.MP;
+            //SetMode(GameMode);
             //ResetGame();
         }
 
         private void VsAI_Click(object sender, RoutedEventArgs e)
         {
-            GameMode = GameModeSettings.AI;
-            SetMode(GameMode);
+            GameModesProcessor.Setting = GameModesProcessor.Modes.AI;
+            SP = GameModesProcessor.CreateGame(AdjustButtonStatusWPF, UpdateImageSourceWPF);
+            ConfigureDisplayWPF();
+
+            //GameMode = GameModeSettings.AI;
+            //SetMode(GameMode);
             //ResetGame();
         }
 
