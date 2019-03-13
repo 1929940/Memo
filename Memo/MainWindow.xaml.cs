@@ -29,7 +29,8 @@ namespace Memo
         //int limit = 3;
         List<Image> Images;
         List<Button> Buttons;
-        BitmapImage tmp = new BitmapImage(new Uri(@"pack://application:,,,/Images/Template.jpg"));
+        Image dot;
+        //BitmapImage tmp = new BitmapImage(new Uri(@"pack://application:,,,/Images/Template.jpg"));
         //int moveCounter = 0;
         //int playerOneScore = 0;
         //int playerTwoScore = 0;
@@ -46,7 +47,7 @@ namespace Memo
         public MainWindow()
         {
             InitializeComponent();
-            SP = new SinglePlayer();
+
             Images = new List<Image>(16)
             {
                 Image_1x1,Image_1x2,Image_1x3,Image_1x4,
@@ -61,16 +62,29 @@ namespace Memo
                 Button_3x1, Button_3x2, Button_3x3, Button_3x4,
                 Button_4x1, Button_4x2, Button_4x3, Button_4x4,
             };
-            SetMode(GameMode);
-            Image dot = new Image
+
+            dot = new Image
             {
                 Source = new BitmapImage(new Uri(@"pack://application:,,,/Images/dot.png"))
             };
             AIMedium.Icon = dot;
-            SP.Reset(AdjustButtonStatusWPF,UpdateImageSourceWPF);
 
+            SP = new SinglePlayer(AdjustButtonStatusWPF, UpdateImageSourceWPF);
+            SetMode(GameMode);
 
+            SP.Reset(UpdateImageSourceWPF);
+
+            Binding(right_two_lbl, "MoveCounter");
         }
+        public void Binding(Label labelName, string propName)
+        {
+            Binding myBinding = new Binding();
+            myBinding.Source = SP;
+            myBinding.Path = new PropertyPath(propName);
+            myBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            BindingOperations.SetBinding(labelName, Label.ContentProperty, myBinding);
+        }
+
         #region Delegate Methods
         private void AdjustButtonStatusWPF(int i, bool flag)
         {
@@ -84,22 +98,11 @@ namespace Memo
         {
             MessageBox.Show(message);
         }
-        private void UpdateLabelWPF(string msg)
-        {
-            // This needs expanding for MP/AI modes
-            right_one_lbl.Content = "Moves: ";
-            right_two_lbl.Content = SP.MoveCounter; // do we need to pass a parameter?
-
-        }
 
         #endregion
 
         void SetMode(GameModeSettings Mode)
         {
-            Image dot = new Image
-            {
-                Source = new BitmapImage(new Uri(@"pack://application:,,,/Images/dot.png"))
-            };
 
             if (Mode == GameModeSettings.SP)
             {
@@ -238,7 +241,11 @@ namespace Memo
 
         void PressButton(int i)
         {
-            SP.SPButton(i,AdjustButtonStatusWPF, UpdateLabelWPF, UpdateImageSourceWPF, DisplayVictoryMessageWPF);
+             if (SP.SPButton(i,AdjustButtonStatusWPF, UpdateImageSourceWPF, DisplayVictoryMessageWPF))
+            {
+                SP = new SinglePlayer(AdjustButtonStatusWPF, UpdateImageSourceWPF);
+                Binding(right_two_lbl, "MoveCounter");
+            }
             //if (GameMode == GameModeSettings.SP) SPButton(i);
             //else if (GameMode == GameModeSettings.MP) MPButton(i);
             //else if (GameMode == GameModeSettings.AI) AIButton(i);
@@ -629,6 +636,9 @@ namespace Memo
         private void MenuNewGame_Click(object sender, RoutedEventArgs e)
         {
             //ResetGame();
+            SP = new SinglePlayer(AdjustButtonStatusWPF, UpdateImageSourceWPF);
+            Binding(right_two_lbl, "MoveCounter");
+
         }
 
         private void MenuQuitGame_Click(object sender, RoutedEventArgs e)
