@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace memoLibrary
 {
     public class MultiPlayer : SinglePlayer
     {
-        // I should not be implementing this again
         public override event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
 
 
@@ -49,10 +44,23 @@ namespace memoLibrary
             }
         }
 
+        /// <summary>
+        /// Creates a new MultiPlayer game
+        /// </summary>
+        /// <param name="adjustButtonStatus">Enable/Disable turning over a card</param>
+        /// <param name="updateImageSource">Changes the source of an image</param>
         public MultiPlayer(AdjustButtonStatus adjustButtonStatus, UpdateImageSource updateImageSource) : base(adjustButtonStatus, updateImageSource)
         {
         }
 
+        /// <summary>
+        /// Turns over the specified card
+        /// </summary>
+        /// <param name="i">Specified Card</param>
+        /// <param name="adjustButtonStatus">Enable/Disable turning over a card</param>
+        /// <param name="updateImageSource">Changes the source of an image</param>
+        /// <param name="displayVictoryMessage">Dictates what function to call to display victory message</param>
+        /// <returns></returns>
         public override bool PlayButton(int i, AdjustButtonStatus adjustButtonStatus,
             UpdateImageSource updateImageSource,
             DisplayVictoryMessage displayVictoryMessage)
@@ -97,7 +105,9 @@ namespace memoLibrary
             return false;
         }
 
-
+        /// <summary>
+        /// Turn's back over any card that has not found its match. 
+        /// </summary>
         public override void Reset(UpdateImageSource updateImageSource)
         {
             for (int i = 0; i < Cards.Count; i++)
@@ -112,11 +122,16 @@ namespace memoLibrary
                 }
                 else
                 {
-                    updateImageSource(i, TmpPath);
+                    updateImageSource(i, TemplatePath);
                 }
             }
         }
 
+        /// <summary>
+        /// Checks for Victory conditions
+        /// </summary>
+        /// <param name="displayVictoryMessage">Dictates what function to call to display victory message</param>
+        /// <returns></returns>
         internal override bool Victory(DisplayVictoryMessage displayVictoryMessage)
         {
             if (PlayerOneScore + PlayerTwoScore == 16)
@@ -138,26 +153,19 @@ namespace memoLibrary
             return false;
         }
 
+        /// <summary>
+        /// Enables turning over every card still in play
+        /// </summary>
+        /// <param name="adjustButtonStatus">Enable/Disable turning over a card</param>
         public override void EnableUndiscoveredButtons(AdjustButtonStatus adjustButtonStatus)
         {
             for (int i = 0; i < Cards.Count; i++)
             {
-                //if (Cards[i].Discover_Player1 == false)
-                //{
-                //    adjustButtonStatus(i, true);
-                //}
-                //else if(Cards[i].Discover_Player2 == false)
-                //{
-                //    adjustButtonStatus(i, true);
-                //}
                 if (!(Cards[i].Discover_Player1 || Cards[i].Discover_Player2))
                 {
                     adjustButtonStatus(i, true);
                 }
-
-
             }
         }
-
     }
 }
