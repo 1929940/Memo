@@ -17,6 +17,11 @@ namespace memoLibrary
 
         public enum AiDifficulties { Easy, Moderate, Hard}
 
+        /// <summary>
+        /// Creates a new game vs an AI controlled player 
+        /// </summary>
+        /// <param name="adjustButtonStatus">Enable/Disable turning over a card</param>
+        /// <param name="updateImageSource">Changes the source of an image</param>
         public AiPlayer(AdjustButtonStatus adjustButtonStatus, UpdateImageSource updateImageSource) : base(adjustButtonStatus, updateImageSource)
         {
         }
@@ -88,7 +93,14 @@ namespace memoLibrary
             PreviousCard = CurrentCard;
             return false;
         }
-
+        /// <summary>
+        /// Simulates Ai turning over a specified card
+        /// </summary>
+        /// <param name="i">Specified card</param>
+        /// <param name="playedRandom">Set true if Ai has just played a random card</param>
+        /// <param name="updateImageSource">Changes the source of an image</param>
+        /// <param name="displayVictoryMessage">Dictates what function to call to display victory message</param>
+        /// <returns>Returns the index of the card it just played</returns>
         public virtual int AiPlayButton(int i, bool playedRandom,
             UpdateImageSource updateImageSource, 
             DisplayVictoryMessage displayVictoryMessage)
@@ -98,11 +110,13 @@ namespace memoLibrary
                 AddToAiMemory(i); // Should edit list when playing randoms only
             }
             Counter++;
-            if (Counter == 3)
-            {
-                Counter = 1;
-                Reset(updateImageSource);
-            }
+            // It never reaches 3
+            //if (Counter == 3)
+            //{
+            //    Counter = 1;
+            //    Reset(updateImageSource);
+                
+            //}
             updateImageSource(i, Cards[i].Image_Path);
             CurrentCard = Cards[i].Name;
             if (Counter == 2)
@@ -125,6 +139,10 @@ namespace memoLibrary
             return i;
         }
 
+        /// <summary>
+        /// Simulates Ai turning over a random selectable card
+        /// </summary>
+        /// <returns>Returns what card it turned over</returns>
         public virtual int AiPlaysRandomButton()
         {
             List<int> tmp = new List<int>();
@@ -142,6 +160,12 @@ namespace memoLibrary
             return tmp[random.Next(tmp.Count)];
         }
 
+        /// <summary>
+        /// Searches if in a list of a few previously played cards is a match 
+        /// </summary>
+        /// <param name="updateImageSource">Changes the source of an image</param>
+        /// <param name="displayVictoryMessage">Dictates what function to call to display victory message</param>
+        /// <returns>Returns true if it found a match</returns>
         public virtual bool CheckAiMemoryForPair(
             UpdateImageSource updateImageSource, 
             DisplayVictoryMessage displayVictoryMessage)
@@ -163,6 +187,13 @@ namespace memoLibrary
             return false;
         }
 
+        /// <summary>
+        /// Searches memory for a match to the previously turned over card
+        /// </summary>
+        /// <param name="previouslyPlayedCard">Index of a card that has just been turned over</param>
+        /// <param name="updateImageSource">Changes the source of an image</param>
+        /// <param name="displayVictoryMessage">Dictates what function to call to display victory message</param>
+        /// <returns>Returns true if it found a match</returns>
         public virtual bool CheckAiMemoryForMatch(int previouslyPlayedCard,
             UpdateImageSource updateImageSource, 
             DisplayVictoryMessage displayVictoryMessage)
@@ -179,6 +210,10 @@ namespace memoLibrary
             return false;
         }
 
+        /// <summary>
+        /// Simulates memory by adding to a list indexes of previously played cards
+        /// </summary>
+        /// <param name="value">Index of a card</param>
         public virtual void AddToAiMemory(int value)
         {
             foreach (var i in AiMemory)
@@ -192,6 +227,9 @@ namespace memoLibrary
             AiMemory.Insert(0, value);
         }
 
+        /// <summary>
+        /// Filters out discovered matches from the 'memory'
+        /// </summary>
         public virtual void RemoveFromAiMemory()
         {
             // Filter List for Discovered
@@ -212,6 +250,10 @@ namespace memoLibrary
             }
         }
 
+        /// <summary>
+        /// Allows to pick one of three difficulty settings
+        /// </summary>
+        /// <param name="difficulty">Specifies difficulty setting</param>
         public virtual void ChangeAiDifficulty(AiDifficulties difficulty)
         {
             if (difficulty == AiDifficulties.Easy)

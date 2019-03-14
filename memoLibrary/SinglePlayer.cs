@@ -8,8 +8,8 @@ namespace memoLibrary
     {
         public virtual event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
 
-        internal string PreviousCard { get; set; } = String.Empty;
-        internal string CurrentCard { get; set; } = String.Empty;
+        internal string PreviousCard { get; set; }
+        internal string CurrentCard { get; set; }
 
         internal int Counter { get; set; }
 
