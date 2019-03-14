@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AiPlayer.cs" />
     <Compile Include="Card.cs" />
     <Compile Include="Extension.cs" />
     <Compile Include="GameModesProcessor.cs" />

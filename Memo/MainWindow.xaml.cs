@@ -69,7 +69,7 @@ namespace Memo
             };
             AIMedium.Icon = dot;
 
-            GameModesProcessor.Setting = GameModesProcessor.Modes.MP;
+            GameModesProcessor.Setting = GameModesProcessor.Modes.SP;
             SP = GameModesProcessor.CreateGame(AdjustButtonStatusWPF, UpdateImageSourceWPF);
             ConfigureDisplayWPF();
 
@@ -138,7 +138,21 @@ namespace Memo
             }
             else
             {
+                left_one_lbl.Content = "Now Playing:";
+                //left_two_lbl.Content = Player;
+                Binding(left_two_lbl, "Player");
 
+                mid_one_lbl.Content = "P1 Score: ";
+                //mid_two_lbl.Content = PlayerOneScore;
+                Binding(mid_two_lbl, "PlayerOneScore");
+
+                right_one_lbl.Content = "P2 Score: ";
+                //right_two_lbl.Content = PlayerTwoScore;
+                Binding(right_two_lbl, "PlayerTwoScore");
+
+                VsNone.Icon = "";
+                VsAnother.Icon = "";
+                VsAI.Icon = dot;
             }
         }
 
@@ -678,6 +692,10 @@ namespace Memo
         {
             SP = GameModesProcessor.CreateGame(AdjustButtonStatusWPF, UpdateImageSourceWPF);
             ConfigureDisplayWPF();
+            if (SP is AiPlayer)
+            {
+                (SP as AiPlayer).WriteMessageEvent += Print;
+            }
         }
 
         private void MenuQuitGame_Click(object sender, RoutedEventArgs e)
@@ -712,6 +730,7 @@ namespace Memo
             GameModesProcessor.Setting = GameModesProcessor.Modes.AI;
             SP = GameModesProcessor.CreateGame(AdjustButtonStatusWPF, UpdateImageSourceWPF);
             ConfigureDisplayWPF();
+            (SP as AiPlayer).WriteMessageEvent += Print;
 
             //GameMode = GameModeSettings.AI;
             //SetMode(GameMode);
@@ -720,40 +739,65 @@ namespace Memo
 
         private void AIEasy_Click(object sender, RoutedEventArgs e)
         {
+            GameModesProcessor.Setting = GameModesProcessor.Modes.AI;
+            SP = GameModesProcessor.CreateGame(AdjustButtonStatusWPF, UpdateImageSourceWPF);
+            ConfigureDisplayWPF();
+            (SP as AiPlayer).WriteMessageEvent += Print;
+            (SP as AiPlayer).ChangeAiDifficulty(AiPlayer.AiDifficulties.Easy);
+
+
+
+
             //limit = 2;
             //Image dot = new Image
             //{
             //    Source = new BitmapImage(new Uri(@"pack://application:,,,/Images/dot.png"))
             //};
-            //AIEasy.Icon = dot;
-            //AIMedium.Icon = "";
-            //AIHard.Icon = "";
+            AIEasy.Icon = dot;
+            AIMedium.Icon = "";
+            AIHard.Icon = "";
         }
 
         private void AIMedium_Click(object sender, RoutedEventArgs e)
         {
+            GameModesProcessor.Setting = GameModesProcessor.Modes.AI;
+            SP = GameModesProcessor.CreateGame(AdjustButtonStatusWPF, UpdateImageSourceWPF);
+            ConfigureDisplayWPF();
+            (SP as AiPlayer).WriteMessageEvent += Print;
+            (SP as AiPlayer).ChangeAiDifficulty(AiPlayer.AiDifficulties.Moderate);
+
             //limit = 3;
             //Image dot = new Image
             //{
             //    Source = new BitmapImage(new Uri(@"pack://application:,,,/Images/dot.png"))
             //};
-            //AIEasy.Icon = "";
-            //AIMedium.Icon = dot;
-            //AIHard.Icon = "";
+            AIEasy.Icon = "";
+            AIMedium.Icon = dot;
+            AIHard.Icon = "";
         }
 
         private void AIHard_Click(object sender, RoutedEventArgs e)
         {
+            GameModesProcessor.Setting = GameModesProcessor.Modes.AI;
+            SP = GameModesProcessor.CreateGame(AdjustButtonStatusWPF, UpdateImageSourceWPF);
+            ConfigureDisplayWPF();
+            (SP as AiPlayer).WriteMessageEvent += Print;
+            (SP as AiPlayer).ChangeAiDifficulty(AiPlayer.AiDifficulties.Hard);
+
             //limit = 5;
             //Image dot = new Image
             //{
             //    Source = new BitmapImage(new Uri(@"pack://application:,,,/Images/dot.png"))
             //};
-            //AIEasy.Icon = "";
-            //AIMedium.Icon = "";
-            //AIHard.Icon = dot;
+            AIEasy.Icon = "";
+            AIMedium.Icon = "";
+            AIHard.Icon = dot;
         }
         #endregion
+        public void Print(string msg)
+        {
+            MessageBox.Show(msg);
+        }
     }
 }
 

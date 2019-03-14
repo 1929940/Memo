@@ -31,8 +31,8 @@ namespace memoLibrary
             }
             else
             {
-                output = new SinglePlayer(adjustButtonStatus, updateImageSource);
-                //output =  new AiPlayer(adjustButtonStatus, updateImageSource);
+                //output = new SinglePlayer(adjustButtonStatus, updateImageSource);
+                output = new AiPlayer(adjustButtonStatus, updateImageSource);
             }
             return output;
         }

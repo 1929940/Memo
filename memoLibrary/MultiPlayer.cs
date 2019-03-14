@@ -123,9 +123,9 @@ namespace memoLibrary
             {
                 if (PlayerOneScore > PlayerTwoScore)
                 {
-                    displayVictoryMessage($"Congratulations \nPlayer One has won.\nWith the score {PlayerOneScore} points vs {PlayerOneScore} points");
+                    displayVictoryMessage($"Congratulations \nPlayer One has won.\nWith the score {PlayerOneScore} points vs {PlayerTwoScore} points");
                 }
-                else if (PlayerTwoScore > PlayerTwoScore)
+                else if (PlayerTwoScore > PlayerOneScore)
                 {
                     displayVictoryMessage($"Congratulations \nPlayer Two has won.\nWith the score {PlayerTwoScore} points vs {PlayerOneScore} points");
                 }
